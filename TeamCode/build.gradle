@@ -48,6 +48,5 @@ repositories {
 
 dependencies {
     implementation project(':FtcRobotController')
-    implementation("dev.frozenmilk.dairy:Core:2.2.4")
     implementation("dev.frozenmilk.sinister:Sloth:0.2.4")
 }
