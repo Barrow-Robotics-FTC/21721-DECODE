@@ -23,7 +23,7 @@ import com.pedropathing.paths.Path;
 // Java
 import java.util.function.Supplier;
 
-@TeleOp(name = "assisted TeleOp", group = "teleop")
+@TeleOp(name = "assisted TeleOp", group = "Opmode")
 @Disabled // REMOVE THI LINE TO SEE ON DRIVER HUB
 @Configurable // Use Panels
 @SuppressWarnings("FieldCanBeLocal") // Stop Android Studio from bugging about variables being predefined
