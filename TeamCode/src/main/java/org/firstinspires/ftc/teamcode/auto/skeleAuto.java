@@ -18,6 +18,9 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.teamcode.utils.Launcher;
+import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
+import org.firstinspires.ftc.teamcode.utils.AprilTag;
 
 import java.util.List;
 
@@ -28,37 +31,22 @@ public class skeleAuto extends LinearOpMode {
     // Initialize elapsed timer
     private final ElapsedTime runtime = new ElapsedTime();
 
-    // Initialize poses
-    private final Pose startPose = new Pose(72, 120, Math.toRadians(90)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(72, 20, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 115 degree angle.
-    private final Pose PPGPose = new Pose(100, 83.5, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose PGPPose = new Pose(100, 59.5, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose GPPPose = new Pose(100, 35.5, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-
-    // Initialize variables for paths
-
-    private PathChain grabPPG;
-    private PathChain scorePPG;
-    private PathChain grabPGP;
-    private PathChain scorePGP;
-    private PathChain grabGPP;
-    private PathChain scoreGPP;
-
 
 
 
     // Other variables
+    private AllianceSelector.Alliance alliance; // Alliance of the robot
+    private StateMachine stateMachine; // Custom autonomous state machine
+    private Launcher launcher; // Custom launcher class
+    private AprilTag aprilTag; // Custom April Tag class
     private Pose currentPose; // Current pose of the robot
-    private Follower follower; // Pedro Pathing follower
+    public Follower follower; // Pedro Pathing follower
     private TelemetryManager panelsTelemetry; // Panels telemetry
-    private int pathStatePPG; // Current state machine value
-    private int pathStatePGP; // Current state machine value
-    private int pathStateGPP; // Current state machine value
-
-    private int foundID; // Current state machine value, dictates which one to run
+    private StateMachine.State pathState; // Current state machine value
+    private AprilTag.Pattern targetPattern; // Target pattern determined by obelisk April Tag
 
 
-
+    
     // Custom logging function to support telemetry and Panels
     private void log(String caption, Object... text) {
         if (text.length == 1) {
@@ -138,20 +126,61 @@ public class skeleAuto extends LinearOpMode {
 
 
 
-    public void buildPaths() {
-        // basically just plotting the points for the lines that score the GPP pattern
+    static class Poses {
+        // Poses
+        public static Pose startPose = new Pose(72, 8, Math.toRadians(90));
+        private final Pose scorePose = new Pose(24, 120, Math.toRadians(130)); // Scoring Pose of our robot. It is facing the goal at a 130 degree angle.
+        private final Pose PPGPose = new Pose(100, 83.5, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
+        private final Pose PGPPose = new Pose(100, 59.5, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
+        private final Pose GPPPose = new Pose(100, 35.5, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+        private final Pose PPGrunOver = new Pose(130, 35.5, Math.toRadians(0)); // to the right of the highest (first Set) of Artifacts from the Spike Mark.
+        private final Pose PGPrunOver = new Pose(130, 35.5, Math.toRadians(0)); // to the right of the middle (second Set) of Artifacts from the Spike Mark.
+        private final Pose GPPrunOver = new Pose(130, 35.5, Math.toRadians(0)); // to the right of the lowest (third Set) of Artifacts from the Spike Mark.
+        
+        
+    }
 
-        // Move to the first artifact pickup pose from the start pose
-        grabGPP = follower.pathBuilder()
-                .addPath(new BezierLine(startPose, GPPPose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), GPPPose.getHeading())
-                .build();
+    static class Paths {
+        private PathChain grabArtifact;
+        private PathChain runOverArtifact;
+        private PathChain scoreArtifact;
 
-        // Move to the scoring pose from the first artifact pickup pose
-        scoreGPP = follower.pathBuilder()
-                .addPath(new BezierLine(GPPPose, scorePose))
-                .setLinearHeadingInterpolation(GPPPose.getHeading(), scorePose.getHeading())
-                .build();
+        public static void build(Follower follower, AprilTag.Pattern pattern) {
+            // Select the correct intake pose based on pattern
+            Pose patternIntakePose = Poses.PPGArtifacts;
+            if (pattern == AprilTag.Pattern.PGP) {
+                patternIntakePose = Poses.PGPPose;
+
+            } else if (pattern == AprilTag.Pattern.GPP) {
+                patternIntakePose = Poses.GPPPose;
+            }
+
+            
+            Pose runOverPose = Poses.PPGArtifacts;
+            if (pattern == AprilTag.Pattern.PGP) {
+                patternRunOverPose = Poses.PGPRunOver;
+
+            } else if (pattern == AprilTag.Pattern.GPP) {
+                patternRunOverPose = Poses.GPPRunOver;
+            }
+
+            grabArtifact = follower.pathBuilder()
+                    .addPath(new BezierLine(Poses.start, patternIntakePose))
+                    .setLinearHeadingInterpolation(Poses.home.getHeading(), patternIntakePose.getHeading())
+                    .build();
+           
+            runOverArtifact = follower.pathBuilder()
+                    .addPath(new BezierLine(Poses.start, runOverPose))
+                    .setLinearHeadingInterpolation(Poses.home.getHeading(), runOverPose.getHeading())
+                    .build();
+
+            scoreArtifact = follower.pathBuilder()
+                    .addPath(new BezierLine(patternIntakePose, Poses.scorePose))
+                    .setLinearHeadingInterpolation(patternIntakePose.getHeading(), Poses.scorePose.getHeading())
+                    .build();
+
+           
+        }
     }
 
     //below is the state machine or each pattern
@@ -182,30 +211,6 @@ public class skeleAuto extends LinearOpMode {
     void setpathState(int newPathState) {
         this.pathState = newPathState;
 
-
-    /**
-     * start the AprilTag processor.
-     */
-    private void initAprilTag() {
-        // Create the AprilTag processor by using a builder.
-        aprilTag = new AprilTagProcessor.Builder().build();
-
-        // Adjust Image Decimation to trade-off detection-range for detection-rate.
-        aprilTag.setDecimation(2);
-
-        // Create the vision portal by using a builder.
-        if (USE_WEBCAM) {
-            visionPortal = new VisionPortal.Builder()
-                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                    .addProcessor(aprilTag)
-                    .build();
-        } else {
-            visionPortal = new VisionPortal.Builder()
-                    .setCamera(BuiltinCameraDirection.BACK)
-                    .addProcessor(aprilTag)
-                    .build();
-        }
-    }
 
     /*
      Manually set the camera gain and exposure.
