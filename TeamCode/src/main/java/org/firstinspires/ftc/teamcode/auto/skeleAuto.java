@@ -21,8 +21,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.teamcode.utils.Launcher;
 import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
 import org.firstinspires.ftc.teamcode.utils.AprilTag;
-
 import java.util.List;
+import java.util.Arrays;
 
 @Autonomous(name = "skeleton for auto", group = "Autonomous")
 @Configurable // Panels
@@ -30,8 +30,11 @@ import java.util.List;
 public class skeleAuto extends LinearOpMode {
     // Initialize elapsed timer
     private final ElapsedTime runtime = new ElapsedTime();
-
-
+    List<StateMachine.State> stateList = Arrays.asList( // Add autonomous states for the state machine here
+            StateMachine.State.GRAB_ARTIFACT,
+            StateMachine.State.RUN_OVER_ARTIFACT,
+            StateMachine.State.SCORE_ARTIFACT,
+    );
 
 
     // Other variables
@@ -73,46 +76,46 @@ public class skeleAuto extends LinearOpMode {
 
         // Initialize Pedro Pathing follower
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(startPose);
+        follower.setStartingPose(Poses.home);
 
-        boolean targetFound = false;    // Set to true when an AprilTag target is detected
-        initAprilTag();
+        // Create state machine and initialize
+        stateMachine = new StateMachine();
+        stateMachine.init(follower, stateList, launcher, HUMAN_PLAYER_WAIT_TIME);
 
-        if (USE_WEBCAM) {
-            setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
-        }
+        // Create instance of launcher and initialize
+        launcher = new Launcher();
+        launcher.init(hardwareMap);
 
-        // Log completed initialization to Panels and driver station (custom log function)
-        log("Status", "Initialized");
-        telemetry.update(); // Update driver station after logging
+        // Crate instance of April Tag and initialize
+        aprilTag = new AprilTag();
+        aprilTag.init(hardwareMap);
+
+        // Prompt the driver to select an alliance
+        alliance = AllianceSelector.run(gamepad1, panelsTelemetry, telemetry);
+
+        // Log completed initialization to Panels and driver station
+        panelsTelemetry.debug("Status", "Initialized");
+        panelsTelemetry.update(telemetry); // Update Panels and driver station after logging
 
         // Wait for the game to start (driver presses START)
         waitForStart();
+
+        // Reset runtime timer
         runtime.reset();
 
-        setpathStatePPG(0);
-        setpathStatePGP(0);
-        setpathStateGPP(0);
-        runtime.reset();
+        /*
+        The April tag obelisk is randomized after the OpMode is initialized, so right after we run the OpMode
+        we'll need to immediately scan the April Tag and then initialize our paths and state machine.
+        */
+        targetPattern = aprilTag.detectPattern();
+        Paths.build(follower, targetPattern);
 
         while (opModeIsActive()) {
             // Update Pedro Pathing and Panels every iteration
             follower.update();
             panelsTelemetry.update();
             currentPose = follower.getPose(); // Update the current pose
-            targetFound = false;
-            desiredTag = null;
 
-
-
-            // Update the state machine
-            if (foundID == 21) { // Consider using the TAG_ID constants or a dedicated variable for which path was found
-                updateStateMachinePPG();
-            } else if (foundID == 22) {
-                updateStateMachinePGP();
-            } else if (foundID == 23) {
-                updateStateMachineGPP();
-            }
 
 
             // Log to Panels and driver station (custom log function)
