@@ -1,20 +1,3 @@
-/*
-Hello :D my names mikey and i'm the head of software on team 21721. I was looking at the april tag sample code on the PP (pedro pathing) website and it kinda confused me or just wasn't
-what I needed to do, so I decided to make my own! Before you worry about the code itself u need to know a bit about April tags. April tags are basically just QR codes; in the sense
-that when you scan them they give u a numerical value. the april tag values for this season are as the following-
-
-Blue Goal: 20
-Motif GPP: 21
-Motif PGP: 22
-Motif PPG: 23
-Red Goal: 24
-
-So basically, you lineup your robot in front of the motif april tag. It scans said April Tag and then gives you a value back. You then have three if/then statements where you pretty much
-say "if the numeric value is 21, then run the GPP pathbuilder" and so on. Right now, though, the code just has movement. So whenever you get your shooting and intake mechanisms figured out, just add that code in the
-designated function and call the function in whichever part of the pathbuilder it is needed. I hope this helps!
-*/
-
-
 package org.firstinspires.ftc.teamcode.examples;
 
 // FTC SDK
