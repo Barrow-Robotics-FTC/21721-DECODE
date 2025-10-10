@@ -33,7 +33,7 @@ public class skeleAuto extends LinearOpMode {
     List<StateMachine.State> stateList = Arrays.asList( // Add autonomous states for the state machine here
             StateMachine.State.GRAB_ARTIFACT,
             StateMachine.State.RUN_OVER_ARTIFACT,
-            StateMachine.State.SCORE_ARTIFACT,
+            StateMachine.State.SCORE_ARTIFACT
     );
 
 
