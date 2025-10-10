@@ -21,7 +21,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.List;
 
-@Autonomous(name = "first try at auto", group = "Opmode")
+@Autonomous(name = "skeleton for auto", group = "Autonomous")
 @Configurable // Panels
 @SuppressWarnings("FieldCanBeLocal") // Stop Android Studio from bugging about variables being predefined
 public class skeleAuto extends LinearOpMode {
@@ -45,14 +45,6 @@ public class skeleAuto extends LinearOpMode {
     private PathChain scoreGPP;
 
 
-    //set April Tag values to specific patterns
-    private static final int PPG_TAG_ID = 23;
-    private static final int PGP_TAG_ID = 22;
-    private static final int GPP_TAG_ID = 21;
-    private static final boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
-    private VisionPortal visionPortal;               // Used to manage the video source.
-    private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
-    private AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
 
 
     // Other variables
@@ -84,13 +76,6 @@ public class skeleAuto extends LinearOpMode {
     }
 
 // a place to put your intake and shooting functions
-    public void intakeArtifacts() {
-        // Put your intake logic/functions here
-    }
-
-    public void shootArtifacts() {
-        // Put your shooting logic/functions here
-    }
 
 
     @Override
@@ -130,40 +115,6 @@ public class skeleAuto extends LinearOpMode {
             targetFound = false;
             desiredTag = null;
 
-            // Step through the list of detected tags and look for a matching tag
-            List<AprilTagDetection> currentDetections = aprilTag.getDetections();
-            for (AprilTagDetection detection : currentDetections) {
-                // Look to see if we have size info on this tag.
-                if (detection.metadata != null) {
-                    //  Check to see if we want to track towards this tag.
-                    if (detection.id == PPG_TAG_ID) {
-                        // call lines for the PGP pattern
-                        buildPathsPPG();
-                        targetFound = true;
-                        desiredTag = detection;
-                        foundID = 21; // This should likely be PPG_TAG_ID or the corresponding state machine ID
-                        break;  // don't look any further.
-                    } else if (detection.id == PGP_TAG_ID) {
-                        // call lines for the PGP pattern
-                        buildPathsPGP();
-                        targetFound = true;
-                        desiredTag = detection;
-                        foundID = 22; // This should likely be PGP_TAG_ID or the corresponding state machine ID
-                        break;  // don't look any further.
-
-                    } else if (detection.id == GPP_TAG_ID) {
-                        // call lines for the GPP pattern
-                        buildPathsGPP();
-                        targetFound = true;
-                        desiredTag = detection;
-                        foundID = 23; // This should likely be GPP_TAG_ID or the corresponding state machine ID
-                        break;  // don't look any further.
-                    }
-                } else {
-                    // This tag is NOT in the library, so we don't have enough information to track to it.
-                    telemetry.addData("Unknown", "Tag ID %d is not in TagLibrary", detection.id);
-                }
-            }
 
 
             // Update the state machine
@@ -186,39 +137,8 @@ public class skeleAuto extends LinearOpMode {
     }
 
 
-    public void buildPathsPPG() {
-        // basically just plotting the points for the lines that score the PPG pattern
 
-
-        grabPPG = follower.pathBuilder() //
-                .addPath(new BezierLine(startPose, PPGPose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), PPGPose.getHeading())
-                .build();
-
-        // Move to the scoring pose from the first artifact pickup pose
-        scorePPG = follower.pathBuilder()
-                .addPath(new BezierLine(PPGPose, scorePose))
-                .setLinearHeadingInterpolation(PPGPose.getHeading(), scorePose.getHeading())
-                .build();
-    }
-
-    public void buildPathsPGP() {
-        // basically just plotting the points for the lines that score the PGP pattern
-
-        // Move to the first artifact pickup pose from the start pose
-        grabPGP = follower.pathBuilder() // Changed from scorePGP to grabPGP
-                .addPath(new BezierLine(startPose, PGPPose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), PGPPose.getHeading())
-                .build();
-
-        // Move to the scoring pose from the first artifact pickup pose
-        scorePGP = follower.pathBuilder()
-                .addPath(new BezierLine(PGPPose, scorePose))
-                .setLinearHeadingInterpolation(PGPPose.getHeading(), scorePose.getHeading())
-                .build();
-    }
-
-    public void buildPathsGPP() {
+    public void buildPaths() {
         // basically just plotting the points for the lines that score the GPP pattern
 
         // Move to the first artifact pickup pose from the start pose
@@ -236,47 +156,10 @@ public class skeleAuto extends LinearOpMode {
 
     //below is the state machine or each pattern
 
-    public void updateStateMachinePPG() {
-        switch (pathStatePPG) {
-            case 0:
-                // Move to the scoring position from the start position
-                follower.followPath(grabPPG);
-                setpathStatePPG(1); // Call the setter method
-                break;
-            case 1:
-                // Wait until we have passed all path constraints
-                if (!follower.isBusy()) {
-
-                    // Move to the first artifact pickup location from the scoring position
-                    follower.followPath(scorePPG);
-                    setpathStatePPG(-1); //set it to -1 so it stops the state machine execution
-                }
-                break;
-        }
-    }
 
 
-    public void updateStateMachinePGP() {
-        switch (pathStatePGP) {
-            case 0:
-                // Move to the scoring position from the start position
-                follower.followPath(grabPGP);
-                setpathStatePGP(1); // Call the setter method
-                break;
-            case 1:
-                // Wait until we have passed all path constraints
-                if (!follower.isBusy()) {
 
-                    // Move to the first artifact pickup location from the scoring position
-                    follower.followPath(scorePGP);
-                    setpathStatePGP(-1); // Call the setter for PGP
-                }
-                break;
-        }
-    }
-
-
-    public void updateStateMachineGPP() {
+    public void updateStateMachine() {
         switch (pathStateGPP) {
             case 0:
                 // Move to the scoring position from the start position
@@ -296,17 +179,8 @@ public class skeleAuto extends LinearOpMode {
     }
 
     // Setter methods for pathState variables placed at the class level
-    void setpathStatePPG(int newPathState) {
-        this.pathStatePPG = newPathState;
-    }
-
-    void setpathStatePGP(int newPathState) {
-        this.pathStatePGP = newPathState;
-    }
-
-    void setpathStateGPP(int newPathState) {
-        this.pathStateGPP = newPathState;
-    }
+    void setpathState(int newPathState) {
+        this.pathState = newPathState;
 
 
     /**
@@ -337,32 +211,5 @@ public class skeleAuto extends LinearOpMode {
      Manually set the camera gain and exposure.
      This can only be called AFTER calling initAprilTag(), and only works for Webcams;
     */
-    private void setManualExposure(int exposureMS, int gain) {
-        // Wait for the camera to be open, then use the controls
-
-        if (visionPortal == null) {
-            return;
-        }
-
-        // Make sure camera is streaming before we try to set the exposure controls
-        if (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
-            telemetry.addData("Camera", "Waiting");
-            telemetry.update();
-            while (!isStopRequested() && (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING)) {
-                sleep(20);
-            }
-            telemetry.addData("Camera", "Ready");
-            telemetry.update();
-        }
-        // ExposureControl exposureControl = visionPortal.getCameraControl(ExposureControl.class);
-        // if (exposureControl.getMode() != ExposureControl.Mode.Manual) {
-        //     exposureControl.setMode(ExposureControl.Mode.Manual);
-        //     sleep(50);
-        // }
-        // exposureControl.setExposure((long)exposureMS, TimeUnit.MILLISECONDS);
-        // sleep(20);
-        // GainControl gainControl = visionPortal.getCameraControl(GainControl.class);
-        // gainControl.setGain(gain);
-        // sleep(20);
-    }
+  
 }
