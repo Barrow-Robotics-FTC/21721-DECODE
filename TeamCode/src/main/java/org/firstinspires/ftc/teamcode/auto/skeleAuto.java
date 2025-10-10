@@ -24,7 +24,7 @@ import java.util.List;
 @Autonomous(name = "first try at auto", group = "Opmode")
 @Configurable // Panels
 @SuppressWarnings("FieldCanBeLocal") // Stop Android Studio from bugging about variables being predefined
-public class AutoTest extends LinearOpMode {
+public class skeleAuto extends LinearOpMode {
     // Initialize elapsed timer
     private final ElapsedTime runtime = new ElapsedTime();
 
