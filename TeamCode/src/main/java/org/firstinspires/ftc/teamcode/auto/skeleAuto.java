@@ -214,32 +214,20 @@ public class skeleAuto extends LinearOpMode {
                             nextState();
                         }
                         break;
-                    case WAIT_FOR_HUMAN_PLAYER:
-                        // Note: timer is reset upon state change (above)
-                        if (HUMAN_PLAYER_WAIT_TIMER.milliseconds() >= HUMAN_PLAYER_WAIT_TIME) {
-                            nextState();
-                        }
-                        break;
-                    case HOME_TO_INTAKE:
+                
+                    case GRAB_ARTIFACT:
                         follower.followPath(Paths.homeToIntake);
                         nextState(); // Calling this after follower.followPath will wait until the follower is completed to run the next state
                         break;
-                    case INTAKE_TO_SCORE:
+                    case RUN_OVER_ARTIFACT:
                         follower.followPath(Paths.intakeToScore);
                         nextState();
                         break;
-                    case SCORE_TO_LOAD:
+                    case SCORE_ARTIFACT:
                         follower.followPath(Paths.scoreToLoad);
                         nextState();
                         break;
-                    case LOAD_TO_SCORE:
-                        follower.followPath(Paths.loadToScore);
-                        nextState();
-                        break;
-                    case SCORE_TO_HOME:
-                        follower.followPath(Paths.scoreToHome);
-                        nextState();
-                        break;
+                    
                 }
             }
             return currentState;
