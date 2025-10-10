@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.examples;
+package org.firstinspires.ftc.teamcode.teleop;
 
 // FTC SDK
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -22,14 +22,17 @@ import com.pedropathing.paths.Path;
 
 // Java
 import java.util.function.Supplier;
+//get launch function from util folder
+import org.firstinspires.ftc.teamcode.util.Launcher;
+
 
 @TeleOp(name = "assisted TeleOp", group = "Opmode")
 @Disabled // REMOVE THI LINE TO SEE ON DRIVER HUB
 @Configurable // Use Panels
 @SuppressWarnings("FieldCanBeLocal") // Stop Android Studio from bugging about variables being predefined
-public class assistedTeleop extends LinearOpMode {
+public class BasicTeleop extends LinearOpMode {
     private double slowModeMultiplier = 0.5; // Multiplier for slow mode speed
-    private final double nonSlowModeMultiplier = 1; // Multiplier for normal driving speed
+    private final double nonSlowModeMultiplier = 8; // Multiplier for normal driving speed
     private final boolean brakeMode = true; // Whether the motors should break on stop (recommended)
     private final boolean robotCentric = true; // True for robot centric driving, false for field centric
     public static Pose startingPose = new Pose(); // Starting pose of the robot for TeleOp
@@ -70,7 +73,7 @@ public class assistedTeleop extends LinearOpMode {
     }
 
     private void shootArtifacts() {
-        // Put your shooting logic here
+        launcher.update(); // Put your shooting logic here
         return;
     }
 
@@ -80,6 +83,10 @@ public class assistedTeleop extends LinearOpMode {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startingPose);
         follower.update();
+
+        //new instance of launcher
+        launcher = new Launcher();
+        launcher.init(hardwareMap);
 
         // Initialize Panels telemetry
         panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
@@ -124,28 +131,16 @@ public class assistedTeleop extends LinearOpMode {
                 automatedDrive = false;
             }
 
-            // Right bumper enables slow mode
-            if (gamepad1.yWasReleased()) {
-                slowMode = !slowMode;
-            }
 
-            // X: Higher slow mode speed
-            if (gamepad1.dpadUpWasReleased()) {
-                slowModeMultiplier += 0.25;
-            }
-
-            // D Pad Down: Lower slow mode speed
-            if (gamepad1.dpadDownWasReleased()) {
-                slowModeMultiplier -= 0.25;
-            }
+            
 
             // Left Trigger: intake artifacts
-            if (gamepad1.leftBumperWasReleased()) {
+            if (gamepad2.leftBumperWasReleased()) {
                 intakeArtifacts();
             }
 
             // Right Trigger: shoot artifacts
-            if (gamepad1.rightBumperWasReleased()) {
+            if (gamepad2.rightBumperWasReleased()) {
                 shootArtifacts();
             }
 
