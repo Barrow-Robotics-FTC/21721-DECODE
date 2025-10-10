@@ -50,22 +50,6 @@ public class skeleAuto extends LinearOpMode {
 
 
     
-    // Custom logging function to support telemetry and Panels
-    private void log(String caption, Object... text) {
-        if (text.length == 1) {
-            telemetry.addData(caption, text[0]);
-            panelsTelemetry.debug(caption + ": " + text[0]);
-        } else if (text.length >= 2) {
-            StringBuilder message = new StringBuilder();
-            for (int i = 0; i < text.length; i++) {
-                message.append(text[i]);
-                if (i < text.length - 1) message.append(" ");
-            }
-            telemetry.addData(caption, message.toString());
-            panelsTelemetry.debug(caption + ": " + message);
-        }
-    }
-
 // a place to put your intake and shooting functions
 
 
@@ -80,7 +64,7 @@ public class skeleAuto extends LinearOpMode {
 
         // Create state machine and initialize
         stateMachine = new StateMachine();
-        stateMachine.init(follower, stateList, launcher, HUMAN_PLAYER_WAIT_TIME);
+        stateMachine.init(follower, stateList, launcher);
 
         // Create instance of launcher and initialize
         launcher = new Launcher();
@@ -113,17 +97,19 @@ public class skeleAuto extends LinearOpMode {
         while (opModeIsActive()) {
             // Update Pedro Pathing and Panels every iteration
             follower.update();
-            panelsTelemetry.update();
             currentPose = follower.getPose(); // Update the current pose
-
+            
+            // Run the state machine update loop
+            pathState = stateMachine.update();
 
 
             // Log to Panels and driver station (custom log function)
-            log("Elapsed", runtime.toString());
-            log("X", currentPose.getX());
-            log("Y", currentPose.getY());
-            log("Heading", currentPose.getHeading());
-            telemetry.update(); // Update the driver station after logging
+            panelsTelemetry.debug("Elapsed", runtime.toString());
+            panelsTelemetry.debug("Path State", pathState);
+            panelsTelemetry.debug("X", currentPose.getX());
+            panelsTelemetry.debug("Y", currentPose.getY());
+            panelsTelemetry.debug("Heading", currentPose.getHeading());
+            panelsTelemetry.update(telemetry); // Update Panels and driver station after logging
         }
     }
 
@@ -184,6 +170,81 @@ public class skeleAuto extends LinearOpMode {
 
            
         }
+
+        static class StateMachine {
+        private Follower follower; // Pedro Pathing follower (passed in init)
+        private List<State> states; // List of states provided in init
+        private Launcher launcher;
+        private int statesIndex; // Current index in states
+        private State currentState; // current state (only used in update for cleaner code)
+
+        public enum State {
+            INTAKE,
+            LAUNCH,
+            GRAB_ARTIFACT,
+            SCORE_ARTIFACT,
+            RUN_OVER_ARTIFACT
+        }
+
+        private void nextState() {
+            statesIndex += 1;
+        }
+
+        public void init(Follower pedro_follower, List<State> state_list, Launcher launcher_instance) {
+            follower = pedro_follower;
+            launcher = launcher_instance;
+            states = state_list;
+            statesIndex = 0;
+        }
+
+        public State update() {
+            currentState = states.get(statesIndex);
+            if (!follower.isBusy()) { // If the follower is running, don't run the state machine
+                switch (currentState) {
+                    case INTAKE:
+                        // Put intake logic here
+                        nextState();
+                        break;
+                    case LAUNCH:
+                        /*
+                        launcher.update() will run the launcher state machine to launch 3 artifacts.
+                        The state will become IDLE when all 3 artifacts are launched.
+                         */
+                        if (launcher.update() == Launcher.State.IDLE) {
+                            nextState();
+                        }
+                        break;
+                    case WAIT_FOR_HUMAN_PLAYER:
+                        // Note: timer is reset upon state change (above)
+                        if (HUMAN_PLAYER_WAIT_TIMER.milliseconds() >= HUMAN_PLAYER_WAIT_TIME) {
+                            nextState();
+                        }
+                        break;
+                    case HOME_TO_INTAKE:
+                        follower.followPath(Paths.homeToIntake);
+                        nextState(); // Calling this after follower.followPath will wait until the follower is completed to run the next state
+                        break;
+                    case INTAKE_TO_SCORE:
+                        follower.followPath(Paths.intakeToScore);
+                        nextState();
+                        break;
+                    case SCORE_TO_LOAD:
+                        follower.followPath(Paths.scoreToLoad);
+                        nextState();
+                        break;
+                    case LOAD_TO_SCORE:
+                        follower.followPath(Paths.loadToScore);
+                        nextState();
+                        break;
+                    case SCORE_TO_HOME:
+                        follower.followPath(Paths.scoreToHome);
+                        nextState();
+                        break;
+                }
+            }
+            return currentState;
+        }
+    }
     }
 
     //below is the state machine or each pattern
@@ -191,33 +252,6 @@ public class skeleAuto extends LinearOpMode {
 
 
 
-    public void updateStateMachine() {
-        switch (pathStateGPP) {
-            case 0:
-                // Move to the scoring position from the start position
-                follower.followPath(grabGPP);
-                setpathStateGPP(1); // Call the setter method
-                break;
-            case 1:
-                // Wait until we have passed all path constraints
-                if (!follower.isBusy()) {
-
-                    // Move to the first artifact pickup location from the scoring position
-                    follower.followPath(scoreGPP);
-                    setpathStateGPP(-1); //set it to -1 so it stops the state machine execution
-                }
-                break;
-        }
-    }
-
-    // Setter methods for pathState variables placed at the class level
-    void setpathState(int newPathState) {
-        this.pathState = newPathState;
-
-
-    /*
-     Manually set the camera gain and exposure.
-     This can only be called AFTER calling initAprilTag(), and only works for Webcams;
-    */
+    
   
 }
