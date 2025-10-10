@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.utils;
 
+import static android.os.SystemClock.sleep;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -15,6 +16,8 @@ public class Launcher {
 
     // Motors and servos
     private DcMotorEx chipMotor; // Left flywheel motor (looking from the robots perspective)
+    private CRServo lServo; // Left servo
+    private CRServo rServo; // Right servo
 
 
     // Other variables
@@ -57,7 +60,7 @@ public class Launcher {
         return chipMotor.getVelocity();
     }
 
-    public double feed() {
+    public void feed() {
         lServo.setPower(.5);
         rServo.setPower(.5);
         sleep(250); //wait .25 seconds
@@ -80,7 +83,7 @@ public class Launcher {
 
                 break;
             case SPEED_UP:
-                double currentLeftRPM = chipMotor.getVelocity();
+                double currentChipRPM = chipMotor.getVelocity();
                 
 
                 // Check if we are within the tolerance
