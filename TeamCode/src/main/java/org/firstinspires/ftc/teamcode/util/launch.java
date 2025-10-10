@@ -60,6 +60,9 @@ public class Launcher {
     public double feed() {
         lServo.setPower(.5);
         rServo.setPower(.5);
+        sleep(250); //wait .25 seconds
+        lServo.setPower(0);
+        rServo.setPower(0);
     }
 
     
@@ -97,9 +100,6 @@ public class Launcher {
 
                 // Detect shooter flywheel RPM drop to know when ball shoots
                 if (chipMotor.getVelocity() <= ARTIFACT_LAUNCHED_RPM_TOLERANCE) {
-                    // turn off feeder servos
-                    lServo.setPower(0);
-                    rServo.setPower(0);
                     
                     // Check if we've launched 3 artifacts
                     launches += 1;
