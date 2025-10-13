@@ -34,7 +34,8 @@ import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
 *        Left Stick Y: Forward
 *        Right Stick X: Turn
 *        Right Trigger: launch 3 artifacts
-*        B (press): Stop auto drive  
+*        A (press): Start auto drive
+*        B (press): Stop auto drive mid-path
 *    ----------------------------------------------------------------------------------------------------------------------------
 */
 
@@ -109,7 +110,7 @@ public class BasicTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        // Initialize the follower with the starting position, if it is null, assume 0, 0, 0
+        
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startingPose);
         follower.update();
