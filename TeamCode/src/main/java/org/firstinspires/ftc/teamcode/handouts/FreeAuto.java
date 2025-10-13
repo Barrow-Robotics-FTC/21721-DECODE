@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-/* hello, mine name is Mikey and im head of software for team 21721
-* If you are reading this it means that I gave you our sample autonomous, here is a basic rundown:
+/* hello, my name is Mikey and im head of software for team 21721 :D
+* If you are reading this it means that I gave you our sample autonomous, so here is a basic rundown:
 * At the start of the match, you earn 3 extra points for leaving a launch area at the beginning of autonomous. This doesnt seem like alot, but
 * it helps push our alliance to getting the movement ranked point, one of my team's first meet goals.
 */
@@ -40,12 +40,13 @@ public class FreeAuto extends LinearOpMode {
         waitForStart();
 
 
-        //Drive forward for 1 seconds at half motor power
+        // Drive forward for 1 seconds at half motor power
         leftDrive.setPower(.5);
         rightDrive.setPower(.5);
         
         sleep(1000);
 
+        // stop
         leftDrive.setPower(0);
         rightDrive.setPower(0);
 
