@@ -22,8 +22,23 @@ import com.pedropathing.paths.Path;
 
 // Java
 import java.util.function.Supplier;
+
 //get launch function from util folder
 import org.firstinspires.ftc.teamcode.util.Launcher;
+
+// get alliance selection
+import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
+
+
+/*
+Gamepad Map for TeleOp
+
+Left Stick X: Strafe
+Left Stick Y: Forward
+Right Stick X: Turn
+B (press): Stop auto drive
+Right Trigger (on release): launch 3 artifacts
+ */
 
 
 @TeleOp(name = "assisted TeleOp", group = "Opmode")
@@ -42,6 +57,8 @@ public class BasicTeleop extends LinearOpMode {
     private boolean automatedDrive; // Is Pedro Pathing driving?
     private TelemetryManager panelsTelemetry; // Panels telemetry
     private boolean slowMode = false; // Slow down the robot
+
+    private AllianceSelector.Alliance alliance; // Alliance of the robot
 
     // Create path which moves to the line in front of the red goal from the current position
     // Use the Pedro Pathing Visualizer to see what this will do
