@@ -62,8 +62,9 @@ public class BasicTeleop extends LinearOpMode {
 
     // Create path which moves to the line in front of the red goal from the current position
     // Use the Pedro Pathing Visualizer to see what this will do
+   
     private final Supplier<PathChain> pathChain = () -> follower.pathBuilder()
-            .addPath(new Path(new BezierLine(follower::getPose, new Pose(24, 120))))
+            .addPath(new Path(new BezierLine(follower::getPose, new Pose(24, 120)))) // ASSUMING BLUE ALLIANCE
             .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(140), 0.8))
             .build();
 
