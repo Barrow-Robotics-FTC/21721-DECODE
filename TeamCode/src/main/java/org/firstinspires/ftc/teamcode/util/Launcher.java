@@ -13,9 +13,10 @@ public class Launcher {
     final int RPM_TOLERANCE = 50; // Tolerance of RPM required for launch
     final int RPM_IN_RANGE_TIME = 250; // How long the launcher must be within the target RPM tolerance to launch (milliseconds)
     final int ARTIFACT_LAUNCHED_RPM_TOLERANCE = TARGET_RPM - 100; // Launcher motor RPM must be below this for an artifact to be considered launched
+    final int feedPower = .5; //power to send to the feeding servos when launching
 
     // Motors and servos
-    private DcMotorEx chipMotor; // Left flywheel motor (looking from the robots perspective)
+    private DcMotorEx chipMotor; // flywheel motor
     private CRServo lServo; // Left servo
     private CRServo rServo; // Right servo
 
@@ -61,18 +62,13 @@ public class Launcher {
     }
 
     public void feed() {
-        lServo.setPower(.5);
-        rServo.setPower(.5);
+        lServo.setPower(-feedPower);
+        rServo.setPower(-feedPower);
         sleep(250); //wait .25 seconds
         lServo.setPower(0);
         rServo.setPower(0);
     }
 
-    
-    
-    
-
-   
     public State update() {
         switch(state) {
             case IDLE:
