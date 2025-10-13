@@ -23,10 +23,8 @@ import com.pedropathing.paths.Path;
 // Java
 import java.util.function.Supplier;
 
-//get launch function from util folder
+// get helper files
 import org.firstinspires.ftc.teamcode.util.Launcher;
-
-// get alliance selection
 import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
 
 
@@ -60,13 +58,25 @@ public class BasicTeleop extends LinearOpMode {
 
     private AllianceSelector.Alliance alliance; // Alliance of the robot
 
-    // Create path which moves to the line in front of the red goal from the current position
-    // Use the Pedro Pathing Visualizer to see what this will do
    
-    private final Supplier<PathChain> pathChain = () -> follower.pathBuilder()
-            .addPath(new Path(new BezierLine(follower::getPose, new Pose(24, 120)))) // ASSUMING BLUE ALLIANCE
-            .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(140), 0.8))
-            .build();
+    // Class to store poses (Poses.poseName)
+    static class Poses {
+        // Poses (red alliance)
+        public static Pose score = new Pose(24, 120, Math.toRadians(140)); // pretty much up against the goal facing it
+    }
+    
+    private PathChain getPathToPose(Pose pose) {
+        // Flip the pose if the alliance is blue
+        if (alliance == AllianceSelector.Alliance.BLUE) {
+            pose = pose.mirror();
+        }
+
+        // Return PathChain
+        return follower.pathBuilder()
+                .addPath(new BezierLine(follower.getPose(), pose))
+                .setLinearHeadingInterpolation(follower.getHeading(), pose.getHeading())
+                .build();
+    }
 
     // Custom logging function to support telemetry and Panels
     private void log(String caption, Object... text) {
@@ -94,6 +104,9 @@ public class BasicTeleop extends LinearOpMode {
         return;
     }
 
+    
+
+
     @Override
     public void runOpMode() {
         // Initialize the follower with the starting position, if it is null, assume 0, 0, 0
@@ -104,6 +117,9 @@ public class BasicTeleop extends LinearOpMode {
         //new instance of launcher
         launcher = new Launcher();
         launcher.init(hardwareMap);
+
+        // Get alliance varible from Blackboard
+        alliance = (AllianceSelector.Alliance) blackboard.getOrDefault("alliance", AllianceSelector.Alliance.RED);
 
         // Initialize Panels telemetry
         panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
@@ -138,7 +154,7 @@ public class BasicTeleop extends LinearOpMode {
 
             // Use A to follow the path
             if (gamepad1.aWasPressed()) {
-                follower.followPath(pathChain.get()); // Follow path
+                follower.followPath(getPathToPose(Poses.scoreClose)); // "getPathToPose" just means to go from the current position to any pose - "Poses.scoreClose" gets the close scoring pose from the poses class
                 automatedDrive = true;
             }
 
@@ -153,7 +169,7 @@ public class BasicTeleop extends LinearOpMode {
 
             // Left Trigger: intake artifacts
             if (gamepad2.leftBumperWasReleased()) {
-                intakeArtifacts();
+                // put intake logic here
             }
 
             // Right Trigger: shoot artifacts
