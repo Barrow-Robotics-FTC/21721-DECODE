@@ -31,14 +31,14 @@ import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
 
 
 /*
-Gamepad Map for TeleOp
-
-Left Stick X: Strafe
-Left Stick Y: Forward
-Right Stick X: Turn
-B (press): Stop auto drive
-Right Trigger (on release): launch 3 artifacts
- */
+*    ---------------------------------------------- Gamepad Map for TeleOp ------------------------------------------------------
+*        Left Stick X: Strafe
+*        Left Stick Y: Forward
+*        Right Stick X: Turn
+*        Right Trigger: launch 3 artifacts
+*        B (press): Stop auto drive  
+*    ----------------------------------------------------------------------------------------------------------------------------
+*/
 
 
 @TeleOp(name = "assisted TeleOp", group = "Opmode")
