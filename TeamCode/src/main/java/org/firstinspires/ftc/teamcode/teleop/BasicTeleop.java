@@ -27,7 +27,6 @@ import org.firstinspires.ftc.teamcode.util.Launcher;
 
 
 @TeleOp(name = "assisted TeleOp", group = "Opmode")
-@Disabled // REMOVE THI LINE TO SEE ON DRIVER HUB
 @Configurable // Use Panels
 @SuppressWarnings("FieldCanBeLocal") // Stop Android Studio from bugging about variables being predefined
 public class BasicTeleop extends LinearOpMode {
@@ -47,8 +46,8 @@ public class BasicTeleop extends LinearOpMode {
     // Create path which moves to the line in front of the red goal from the current position
     // Use the Pedro Pathing Visualizer to see what this will do
     private final Supplier<PathChain> pathChain = () -> follower.pathBuilder()
-            .addPath(new Path(new BezierLine(follower::getPose, new Pose(45, 98))))
-            .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(135), 0.8))
+            .addPath(new Path(new BezierLine(follower::getPose, new Pose(24, 120))))
+            .setHeadingInterpolation(HeadingInterpolator.linearFromPoint(follower::getHeading, Math.toRadians(140), 0.8))
             .build();
 
     // Custom logging function to support telemetry and Panels
