@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.utils;
+package org.firstinspires.ftc.teamcode.util;
 
 import static android.os.SystemClock.sleep;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
@@ -13,9 +13,10 @@ public class Launcher {
     final int RPM_TOLERANCE = 50; // Tolerance of RPM required for launch
     final int RPM_IN_RANGE_TIME = 250; // How long the launcher must be within the target RPM tolerance to launch (milliseconds)
     final int ARTIFACT_LAUNCHED_RPM_TOLERANCE = TARGET_RPM - 100; // Launcher motor RPM must be below this for an artifact to be considered launched
+    final int feedPower = .5; //power to send to the feeding servos when launching
 
     // Motors and servos
-    private DcMotorEx chipMotor; //  flywheel motor
+    private DcMotorEx chipMotor; // flywheel motor
     private CRServo lServo; // Left servo
     private CRServo rServo; // Right servo
 
@@ -57,23 +58,17 @@ public class Launcher {
 
 
     public double getChipRPM() {
-
         return chipMotor.getVelocity();
     }
 
     public void feed() {
-        lServo.setPower(.25);
-        rServo.setPower(.25);
-        sleep(500); //wait .5 seconds
+        lServo.setPower(-feedPower);
+        rServo.setPower(-feedPower);
+        sleep(250); //wait .25 seconds
         lServo.setPower(0);
         rServo.setPower(0);
     }
 
-    
-    
-    
-
-   
     public State update() {
         switch(state) {
             case IDLE:
