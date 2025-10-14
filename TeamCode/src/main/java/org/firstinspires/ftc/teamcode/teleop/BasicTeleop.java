@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 // FTC SDK
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.Configurable;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 // Panels
-import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.TelemetryManager;
 import com.bylazar.telemetry.PanelsTelemetry;
 
@@ -23,11 +23,10 @@ import com.pedropathing.paths.Path;
 // Java
 import java.util.function.Supplier;
 //get launch function from util folder
-import org.firstinspires.ftc.teamcode.util.Launcher;
+import org.firstinspires.ftc.teamcode.utils.Launcher;
 
 
 @TeleOp(name = "assisted TeleOp", group = "Opmode")
-@Disabled // REMOVE THI LINE TO SEE ON DRIVER HUB
 @Configurable // Use Panels
 @SuppressWarnings("FieldCanBeLocal") // Stop Android Studio from bugging about variables being predefined
 public class BasicTeleop extends LinearOpMode {

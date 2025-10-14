@@ -15,14 +15,14 @@ import com.bylazar.telemetry.PanelsTelemetry;
 
 // Pedro Pathing
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-import com.pedropathing.geometry.BezierCurve;
+
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.geometry.Pose;
 
 // Local helper files
-import org.firstinspires.ftc.teamcode.util.Launcher;
+import org.firstinspires.ftc.teamcode.utils.Launcher;
 import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
 import org.firstinspires.ftc.teamcode.utils.AprilTag;
 

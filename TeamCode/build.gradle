@@ -46,4 +46,5 @@ repositories {
 dependencies {
     implementation project(':FtcRobotController')
     implementation("dev.frozenmilk.sinister:Sloth:0.2.4")
+    implementation 'com.google.firebase:firebase-crashlytics-buildtools:3.0.6'
 }
