@@ -24,7 +24,7 @@ import com.pedropathing.paths.Path;
 import java.util.function.Supplier;
 
 // get helper files
-import org.firstinspires.ftc.teamcode.util.Launcher;
+import org.firstinspires.ftc.teamcode.utils.Launcher;
 import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
 
 
@@ -58,12 +58,13 @@ public class BasicTeleop extends LinearOpMode {
     private boolean slowMode = false; // Slow down the robot
 
     private AllianceSelector.Alliance alliance; // Alliance of the robot
+    private Launcher launcher;
 
-   
+
     // Class to store poses (Poses.poseName)
     static class Poses {
         // Poses (red alliance)
-        public static Pose score = new Pose(24, 120, Math.toRadians(140)); // pretty much up against the goal facing it
+        public static Pose scoreClose = new Pose(24, 120, Math.toRadians(140)); // pretty much up against the goal facing it
     }
     
     private PathChain getPathToPose(Pose pose) {
