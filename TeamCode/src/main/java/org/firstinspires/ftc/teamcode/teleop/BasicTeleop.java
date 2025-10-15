@@ -176,7 +176,8 @@ public class BasicTeleop extends LinearOpMode {
 
             // Right Trigger: shoot artifacts
             if (gamepad2.rightBumperWasReleased()) {
-                shootArtifacts();
+                // shootArtifacts();
+                launcher.feed();
             }
 
             // Log to Panels and driver station (custom log function)
