@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 // FTC SDK
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -33,7 +32,8 @@ import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
 *        Left Stick X: Strafe
 *        Left Stick Y: Forward
 *        Right Stick X: Turn
-*        Right Trigger: launch 3 artifacts
+*        left bumper: Intake
+*        Right bumper: launch 3 artifacts
 *        A (press): Start auto drive
 *        B (press): Stop auto drive mid-path
 *    ----------------------------------------------------------------------------------------------------------------------------
@@ -120,8 +120,8 @@ public class BasicTeleop extends LinearOpMode {
         launcher = new Launcher();
         launcher.init(hardwareMap);
 
-        // Get alliance varible from Blackboard
-        alliance = (AllianceSelector.Alliance) blackboard.getOrDefault("alliance", AllianceSelector.Alliance.RED);
+        // Get alliance variable from Blackboard
+        // alliance = (AllianceSelector.Alliance) blackboard.getOrDefault("alliance", AllianceSelector.Alliance.RED);
 
         // Initialize Panels telemetry
         panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
@@ -169,12 +169,12 @@ public class BasicTeleop extends LinearOpMode {
 
             
 
-            // Left Trigger: intake artifacts
+            // Left bumper: intake artifacts
             if (gamepad2.leftBumperWasReleased()) {
                 // put intake logic here
             }
 
-            // Right Trigger: shoot artifacts
+            // Right bumper: shoot artifacts
             if (gamepad2.rightBumperWasReleased()) {
                 // shootArtifacts();
                 launcher.feed();
