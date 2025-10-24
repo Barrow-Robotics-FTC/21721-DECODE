@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.auto;
 
 // FTC SDK
@@ -73,8 +74,7 @@ public class skeleAuto extends LinearOpMode {
         stateMachine.init(follower, stateList, launcher);
 
         // Create instance of launcher and initialize
-        launcher = new Launcher();
-        launcher.init(hardwareMap);
+        Launcher launcher = new Launcher(hardwareMap);
 
         // Crate instance of April Tag and initialize
         aprilTag = new AprilTag();
@@ -218,7 +218,7 @@ public class skeleAuto extends LinearOpMode {
                         launcher.update() will run the launcher state machine to launch 3 artifacts.
                         The state will become IDLE when all 3 artifacts are launched.
                          */
-                        if (launcher.update() == Launcher.State.IDLE) {
+                        if (launcher.getState() == Launcher.State.IDLE) {
                             nextState();
                         }
                         break;

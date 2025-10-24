@@ -44,7 +44,7 @@ import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
 @Configurable // Use Panels
 @SuppressWarnings("FieldCanBeLocal") // Stop Android Studio from bugging about variables being predefined
 public class BasicTeleop extends LinearOpMode {
-    private double slowModeMultiplier = 0.5; // Multiplier for slow mode speed
+    private final double slowModeMultiplier = 0.5; // Multiplier for slow mode speed
     private final double nonSlowModeMultiplier = 8; // Multiplier for normal driving speed
     private final boolean brakeMode = true; // Whether the motors should break on stop (recommended)
     private final boolean robotCentric = true; // True for robot centric driving, false for field centric
@@ -55,7 +55,7 @@ public class BasicTeleop extends LinearOpMode {
     private Pose currentPose; // Current pose of the robot
     private boolean automatedDrive; // Is Pedro Pathing driving?
     private TelemetryManager panelsTelemetry; // Panels telemetry
-    private boolean slowMode = false; // Slow down the robot
+    private final boolean slowMode = false; // Slow down the robot
 
     private AllianceSelector.Alliance alliance; // Alliance of the robot
     private Launcher launcher;
@@ -102,7 +102,7 @@ public class BasicTeleop extends LinearOpMode {
     }
 
     private void shootArtifacts() {
-        launcher.update(); // Put your shooting logic here
+        launcher.update(true); // Put your shooting logic here
         return;
     }
 
@@ -117,8 +117,7 @@ public class BasicTeleop extends LinearOpMode {
         follower.update();
 
         //new instance of launcher
-        launcher = new Launcher();
-        launcher.init(hardwareMap);
+        Launcher launcher = new Launcher(hardwareMap);
 
         // Get alliance variable from Blackboard
         // alliance = (AllianceSelector.Alliance) blackboard.getOrDefault("alliance", AllianceSelector.Alliance.RED);
@@ -170,15 +169,12 @@ public class BasicTeleop extends LinearOpMode {
             
 
             // Left bumper: intake artifacts
-            if (gamepad2.leftBumperWasReleased()) {
-                // put intake logic here
+            if (gamepad1.right_bumper) {
+                launcher.launch();
             }
 
             // Right bumper: shoot artifacts
-            if (gamepad2.rightBumperWasReleased()) {
-                // shootArtifacts();
-                launcher.feed();
-            }
+
 
             // Log to Panels and driver station (custom log function)
             log("X: ", currentPose.getX());
