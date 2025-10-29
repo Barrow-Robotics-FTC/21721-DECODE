@@ -21,8 +21,14 @@ public class AprilTag {
     private static final int PPG_TAG_ID = 23; // Tag ID for PPG on the obelisk
     private static final int PGP_TAG_ID = 22; // Tag ID for PGP on the obelisk
     private static final int GPP_TAG_ID = 21; // Tag ID for GPP on the obelisk
+
+    private static final int RED_GOAL_TAG_ID = 24; // Tag ID for GPP on the obelisk
+    private static final int BLUE_GOAL_TAG_ID = 20; // Tag ID for GPP on the obelisk
+
     private VisionPortal visionPortal; // Manages webcam
     private AprilTagProcessor aprilTagProcessor; // Manages April tag detection
+
+
 
     public enum Pattern {
         PPG,
@@ -77,7 +83,7 @@ public class AprilTag {
         sleep(20);
     }
 
-    public Pattern detectPattern() {
+    public static Pattern detectPattern() {
         List<AprilTagDetection> currentDetections = aprilTagProcessor.getDetections();
         for (AprilTagDetection detection : currentDetections) {
             if (detection.metadata != null) {
@@ -89,6 +95,7 @@ public class AprilTag {
                 } else if (detection.id == GPP_TAG_ID) {
                     return Pattern.GPP;
                 }
+
             }
         }
 
