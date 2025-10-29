@@ -57,6 +57,9 @@ public class BasicTeleop extends LinearOpMode {
     private TelemetryManager panelsTelemetry; // Panels telemetry
     private final boolean slowMode = false; // Slow down the robot
 
+    public static int targetLaunches;
+
+
     private AllianceSelector.Alliance alliance; // Alliance of the robot
     private Launcher launcher;
 
@@ -170,6 +173,7 @@ public class BasicTeleop extends LinearOpMode {
 
             // Left bumper: intake artifacts
             if (gamepad1.right_bumper) {
+                targetLaunches = 3;
                 launcher.launch();
             }
 

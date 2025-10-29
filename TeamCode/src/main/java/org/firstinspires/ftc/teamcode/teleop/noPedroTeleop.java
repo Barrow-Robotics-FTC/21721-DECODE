@@ -18,6 +18,7 @@ public class noPedroTeleop extends LinearOpMode {
     private DcMotor frontRightDrive = null;
     private DcMotor backRightDrive = null;
     private Launcher launcher;
+    public int targetLaunches;
 
 
     @Override
@@ -56,13 +57,29 @@ public class noPedroTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             launcher.update(true);
 
-            if (gamepad1.right_bumper) {
+            if (gamepad1.yWasReleased()) {
+                targetLaunches = 1;
+                launcher.setTargetLaunches(targetLaunches);
+                launcher.launch();
+            }
+
+            if (gamepad1.bWasReleased()) {
+                targetLaunches = 2;
+                launcher.setTargetLaunches(targetLaunches);
+                launcher.launch();
+            }
+
+            if (gamepad1.aWasReleased()) {
+                targetLaunches = 3;
+                launcher.setTargetLaunches(targetLaunches);
                 launcher.launch();
             }
 
             if (gamepad1.left_bumper) {
                 launcher.stop();
             }
+
+
 
             double max;
 
@@ -118,6 +135,8 @@ public class noPedroTeleop extends LinearOpMode {
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
+            telemetry.addData("target launches", targetLaunches);
             telemetry.update();
+
         }
     }}

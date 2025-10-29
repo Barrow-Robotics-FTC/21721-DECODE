@@ -9,6 +9,9 @@ public class LauncherTest extends LinearOpMode {
 
     private Launcher launcher;
 
+    public static int targetLaunches;
+
+
     @Override
     public void runOpMode() {
         launcher = new Launcher(hardwareMap);
@@ -21,9 +24,21 @@ public class LauncherTest extends LinearOpMode {
         while (opModeIsActive()) {
             launcher.update(true);
 
-            if (gamepad1.right_bumper) {
+            if (gamepad1.yWasReleased()) {
+                targetLaunches = 1;
                 launcher.launch();
             }
+
+            if (gamepad1.bWasReleased()) {
+                targetLaunches = 2;
+                launcher.launch();
+            }
+
+            if (gamepad1.aWasReleased()) {
+                targetLaunches = 3;
+                launcher.launch();
+            }
+
 
             if (gamepad1.left_bumper) {
                 launcher.stop();
