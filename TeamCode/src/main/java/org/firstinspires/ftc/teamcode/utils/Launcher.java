@@ -16,7 +16,9 @@ public class Launcher {
     final int RPM_IN_RANGE_TIME = 250;
     final int MIN_TIME_BETWEEN_LAUNCHES = 750;
     final double feedPower = .6;
-    final int FEED_TIME = 100;
+    final int FEED_TIME = 250;
+
+    public boolean launched = false;
 
     // Motors and servos
     public DcMotorEx chipMotor;
@@ -24,7 +26,7 @@ public class Launcher {
     public CRServo rServo;
 
     // Other variables
-    private State state = State.IDLE;
+    public State state = State.IDLE;
     private int launches;
 
     public int targetLaunches;
@@ -67,6 +69,8 @@ public class Launcher {
         launches = 0;
     }
 
+
+
     public double getChipRPM() {
         return chipMotor.getVelocity();
     }
@@ -84,10 +88,6 @@ public class Launcher {
     }
 
 
-
-    public void setTargetRPM(int rpm) {
-        TARGET_RPM = rpm;
-    }
 
     public void launch() {
         if (state == State.IDLE) {
@@ -143,6 +143,7 @@ public class Launcher {
                 if (recoveryTimer.milliseconds() >= MIN_TIME_BETWEEN_LAUNCHES) {
                     if (launches >= targetLaunches) {
                         stop();
+                        launched = true;
                     } else {
                         state = State.SPEED_UP;
                         inToleranceTimer.reset();

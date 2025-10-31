@@ -26,7 +26,7 @@ public class AprilTag {
     private static final int BLUE_GOAL_TAG_ID = 20; // Tag ID for GPP on the obelisk
 
     private VisionPortal visionPortal; // Manages webcam
-    private AprilTagProcessor aprilTagProcessor; // Manages April tag detection
+    private static AprilTagProcessor aprilTagProcessor; // Manages April tag detection
 
 
 

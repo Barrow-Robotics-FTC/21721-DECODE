@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.utils.Launcher;
+import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
 
 @TeleOp(name="teleOP without PP", group="opmode")
@@ -20,6 +21,9 @@ public class noPedroTeleop extends LinearOpMode {
     private Launcher launcher;
     public int targetLaunches;
 
+    private float driveSpeed = .6F;
+
+
 
     @Override
     public void runOpMode() {
@@ -30,6 +34,11 @@ public class noPedroTeleop extends LinearOpMode {
         backLeftDrive = hardwareMap.get(DcMotor.class, "bLDrive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "fRDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "bRDrive");
+
+        frontLeftDrive.setZeroPowerBehavior(BRAKE);
+        frontRightDrive.setZeroPowerBehavior(BRAKE);
+        backLeftDrive.setZeroPowerBehavior(BRAKE);
+        backRightDrive.setZeroPowerBehavior(BRAKE);
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -57,26 +66,34 @@ public class noPedroTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             launcher.update(true);
 
-            if (gamepad1.yWasReleased()) {
+            if (gamepad2.yWasReleased()) {
                 targetLaunches = 1;
                 launcher.setTargetLaunches(targetLaunches);
                 launcher.launch();
             }
 
-            if (gamepad1.bWasReleased()) {
+            if (gamepad2.bWasReleased()) {
                 targetLaunches = 2;
                 launcher.setTargetLaunches(targetLaunches);
                 launcher.launch();
             }
 
-            if (gamepad1.aWasReleased()) {
+            if (gamepad2.aWasReleased()) {
                 targetLaunches = 3;
                 launcher.setTargetLaunches(targetLaunches);
                 launcher.launch();
             }
 
-            if (gamepad1.left_bumper) {
+            if (gamepad2.left_bumper) {
                 launcher.stop();
+            }
+
+            if (gamepad1.left_bumper) {
+                driveSpeed = .2F;
+            }
+
+            if (gamepad1.right_bumper) {
+                driveSpeed = .6F;
             }
 
 
@@ -84,9 +101,9 @@ public class noPedroTeleop extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = (-gamepad1.left_stick_y * .6);  // Note: pushing stick forward gives negative value
-            double lateral =  (gamepad1.left_stick_x * .6);
-            double yaw     =  (gamepad1.right_stick_x * .6);
+            double axial   = (-gamepad1.left_stick_y * driveSpeed);  // Note: pushing stick forward gives negative value
+            double lateral =  (gamepad1.left_stick_x * driveSpeed);
+            double yaw     =  (gamepad1.right_stick_x * driveSpeed);
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.

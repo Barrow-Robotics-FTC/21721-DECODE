@@ -14,7 +14,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.teamcode.utils.Launcher;
 
 @Autonomous(name = "LM1 RED AUTO", group = "Autonomous")
-public class LM1Red extends LinearOpMode {
+public class LM1RedApril extends LinearOpMode {
 
     // 1. DEFINE THE STATES FOR THE STATE MACHINE
     private enum State {
