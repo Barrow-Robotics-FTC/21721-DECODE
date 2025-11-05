@@ -25,7 +25,6 @@ import com.pedropathing.geometry.Pose;
 // Local helper files
 import org.firstinspires.ftc.teamcode.utils.Launcher;
 import org.firstinspires.ftc.teamcode.utils.AllianceSelector;
-import org.firstinspires.ftc.teamcode.utils.AprilTag;
 
 // Java
 import java.util.Arrays;
