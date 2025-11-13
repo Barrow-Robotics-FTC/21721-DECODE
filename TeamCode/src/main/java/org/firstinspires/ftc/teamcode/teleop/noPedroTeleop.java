@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.utils.Launcher;
-import org.firstinspires.ftc.teamcode.utils.Intake;
-
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
 
@@ -24,6 +22,7 @@ public class noPedroTeleop extends LinearOpMode {
     public int targetLaunches;
 
     private float driveSpeed = .6F;
+
 
 
     @Override
@@ -67,14 +66,6 @@ public class noPedroTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             launcher.update(true);
 
-            if (gamepad2.right_trigger > 0) {
-                Intake.run();
-            }
-            if (!(gamepad1.right_trigger > 0)) {
-                Intake.off();
-            }
-
-
             if (gamepad2.yWasReleased()) {
                 targetLaunches = 1;
                 launcher.setTargetLaunches(targetLaunches);
@@ -106,19 +97,20 @@ public class noPedroTeleop extends LinearOpMode {
             }
 
 
+
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial = (-gamepad1.left_stick_y * driveSpeed);  // Note: pushing stick forward gives negative value
-            double lateral = (gamepad1.left_stick_x * driveSpeed);
-            double yaw = (gamepad1.right_stick_x * driveSpeed);
+            double axial   = (-gamepad1.left_stick_y * driveSpeed);  // Note: pushing stick forward gives negative value
+            double lateral =  (gamepad1.left_stick_x * driveSpeed);
+            double yaw     =  (gamepad1.right_stick_x * driveSpeed);
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double frontLeftPower = axial + lateral + yaw;
+            double frontLeftPower  = axial + lateral + yaw;
             double frontRightPower = axial - lateral - yaw;
-            double backLeftPower = axial - lateral + yaw;
-            double backRightPower = axial + lateral - yaw;
+            double backLeftPower   = axial - lateral + yaw;
+            double backRightPower  = axial + lateral - yaw;
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -127,10 +119,10 @@ public class noPedroTeleop extends LinearOpMode {
             max = Math.max(max, Math.abs(backRightPower));
 
             if (max > 1.0) {
-                frontLeftPower /= max;
+                frontLeftPower  /= max;
                 frontRightPower /= max;
-                backLeftPower /= max;
-                backRightPower /= max;
+                backLeftPower   /= max;
+                backRightPower  /= max;
             }
 
             // This is test code:
@@ -164,5 +156,4 @@ public class noPedroTeleop extends LinearOpMode {
             telemetry.update();
 
         }
-    }
-}
+    }}
