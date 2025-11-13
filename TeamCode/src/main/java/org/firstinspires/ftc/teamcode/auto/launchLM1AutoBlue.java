@@ -68,10 +68,10 @@ public class launchLM1AutoBlue extends LinearOpMode {
         launcher.chipMotor.setVelocity(TARGET_RPM);
 
         launcher.lServo.setPower(.1);
-        launcher.lServo.setPower(.1);
+        launcher.rServo.setPower(-.1);
         sleep(8000);
         launcher.lServo.setPower(0);
-        launcher.lServo.setPower(0);
+        launcher.rServo.setPower(0);
         launcher.chipMotor.setVelocity(0);
         sleep(100);
 

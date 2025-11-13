@@ -1,27 +1,23 @@
 package org.firstinspires.ftc.teamcode.utils;
 
-import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
-    final double INTAKE_POWER = .8;
+    static final double INTAKE_POWER = .75;
 
-    CRServo intakeL;
-    CRServo intakeR;
+    static DcMotor intakeFront;
 
     public Intake(HardwareMap hardwareMap) {
-        intakeL = hardwareMap.get(CRServo.class, "intakeL");
-        intakeR = hardwareMap.get(CRServo.class, "intakeR");
+        intakeFront = hardwareMap.get(DcMotor.class, "intakeFront");
     }
 
-   public void stop() {
-        intakeL.setPower(0);
-        intakeR.setPower(0);
-    }  
+   public static void off() {
+       intakeFront.setPower(0);
+    }
     
-    public void run() {
-        intakeL.setPower(INTAKE_POWER);
-        intakeR.setPower(-INTAKE_POWER);
+    public static void run() {
+        intakeFront.setPower(INTAKE_POWER);
     }
 
    

@@ -67,16 +67,16 @@ public class launchLM1AutoRed extends LinearOpMode {
         // LAUNCH
         launcher.chipMotor.setVelocity(TARGET_RPM);
 
-        launcher.lServo.setPower(.1);
+        launcher.rServo.setPower(-.1);
         launcher.lServo.setPower(.1);
         sleep(8000);
         launcher.lServo.setPower(0);
-        launcher.lServo.setPower(0);
+        launcher.rServo.setPower(0);
         launcher.chipMotor.setVelocity(0);
         sleep(100);
 
-        frontLeftDrive.setPower(-.6);
-        backLeftDrive.setPower(.6);
+        frontLeftDrive.setPower(.6);
+        backLeftDrive.setPower(-.6);
         sleep(2000);
         frontLeftDrive.setPower(0);
         backLeftDrive.setPower(0);

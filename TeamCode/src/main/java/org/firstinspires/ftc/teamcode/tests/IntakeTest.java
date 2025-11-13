@@ -32,18 +32,17 @@ public class IntakeTest extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (gamepad1.rightBumperWasPressed()) { // When right bumper is pressed
+
+            if (gamepad2.right_trigger > 0) {
                 intake.run();
             }
-
-            if (gamepad1.leftBumperWasPressed()) { // When left bumper is pressed
-                  intake.stop();
-              }
-
+            if(!(gamepad1.right_trigger > 0)){
+                intake.off();
             }
 
             telemetry.addData("Intake Running", intakeRunning);
             telemetry.update(); // Update Panels and Driver Station after logging
         }
     }
+}
 
