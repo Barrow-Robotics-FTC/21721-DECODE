@@ -4,21 +4,29 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
-    static final double INTAKE_POWER = .75;
+    public static double intakePower = (-.7);
+    public static double intakePowerOut = (.5);
 
-    static DcMotor intakeFront;
+
+    public static DcMotor intakeFront;
 
     public Intake(HardwareMap hardwareMap) {
         intakeFront = hardwareMap.get(DcMotor.class, "intakeFront");
+        intakeFront.setDirection(DcMotor.Direction.FORWARD);
+
     }
 
-   public static void off() {
-       intakeFront.setPower(0);
-    }
-    
-    public static void run() {
-        intakeFront.setPower(INTAKE_POWER);
+    public static void stop(){
+        intakeFront.setPower(0);
     }
 
-   
+    public static void in(){
+        intakeFront.setPower(intakePower);
+    }
+
+    public static void out(){
+        intakeFront.setPower(intakePowerOut);
+    }
+
+
 }

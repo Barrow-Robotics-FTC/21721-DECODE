@@ -4,7 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.utils.Intake;
 import org.firstinspires.ftc.teamcode.utils.Launcher;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
@@ -18,10 +21,13 @@ public class noPedroTeleop extends LinearOpMode {
     private DcMotor backLeftDrive = null;
     private DcMotor frontRightDrive = null;
     private DcMotor backRightDrive = null;
+    private DcMotor intakeFront = null;
+
     private Launcher launcher;
     public int targetLaunches;
 
     private float driveSpeed = .6F;
+
 
 
 
@@ -34,6 +40,8 @@ public class noPedroTeleop extends LinearOpMode {
         backLeftDrive = hardwareMap.get(DcMotor.class, "bLDrive");
         frontRightDrive = hardwareMap.get(DcMotor.class, "fRDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "bRDrive");
+        intakeFront = hardwareMap.get(DcMotor.class, "intakeFront");
+
 
         frontLeftDrive.setZeroPowerBehavior(BRAKE);
         frontRightDrive.setZeroPowerBehavior(BRAKE);
@@ -58,6 +66,9 @@ public class noPedroTeleop extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
+
+
 
         waitForStart();
         runtime.reset();
@@ -96,13 +107,27 @@ public class noPedroTeleop extends LinearOpMode {
                 driveSpeed = .6F;
             }
 
+            if (gamepad2.right_trigger > 0) {
+                intakeFront.setPower(-.7);
+
+            }
+
+            if (gamepad2.left_trigger > 0) {
+                intakeFront.setPower(.5);
+
+            }
+            if (gamepad2.dpadUpWasReleased()){
+                intakeFront.setPower(0);
+            }
+
+
 
 
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = (-gamepad1.left_stick_y * driveSpeed);  // Note: pushing stick forward gives negative value
-            double lateral =  (gamepad1.left_stick_x * driveSpeed);
+            double axial   = (-gamepad1.left_stick_x * driveSpeed);  // Note: pushing stick forward gives negative value
+            double lateral =  (gamepad1.left_stick_y * driveSpeed);
             double yaw     =  (gamepad1.right_stick_x * driveSpeed);
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -111,6 +136,7 @@ public class noPedroTeleop extends LinearOpMode {
             double frontRightPower = axial - lateral - yaw;
             double backLeftPower   = axial - lateral + yaw;
             double backRightPower  = axial + lateral - yaw;
+
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -148,11 +174,18 @@ public class noPedroTeleop extends LinearOpMode {
             backLeftDrive.setPower(backLeftPower);
             backRightDrive.setPower(backRightPower);
 
+
+
+
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
             telemetry.addData("target launches", targetLaunches);
+            telemetry.addData("frontLeftPower", frontLeftPower);
+            telemetry.addData("frontRightPower", frontRightPower);
+            telemetry.addData("backLeftPower", backLeftPower);
+            telemetry.addData("backRightPower", backRightPower);
             telemetry.update();
 
         }
