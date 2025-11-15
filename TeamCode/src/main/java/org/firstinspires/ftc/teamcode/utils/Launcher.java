@@ -15,8 +15,8 @@ public class Launcher {
     final int RPM_TOLERANCE = 50;
     final int RPM_IN_RANGE_TIME = 250;
     final int MIN_TIME_BETWEEN_LAUNCHES = 750;
-    final double feedPower = .8;
-    final int FEED_TIME = 1000;
+    final double feedPower = 1;
+    final int FEED_TIME = 1200;
 
     public boolean launched = false;
 

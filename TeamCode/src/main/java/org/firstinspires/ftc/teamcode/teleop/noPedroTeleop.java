@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.utils.Intake;
@@ -27,6 +29,7 @@ public class noPedroTeleop extends LinearOpMode {
     private DcMotor intakeFront = null;
 
     private Launcher launcher;
+    private Intake Intake;
     public int targetLaunches;
 
     private float driveSpeed = .6F;
@@ -44,6 +47,9 @@ public class noPedroTeleop extends LinearOpMode {
         frontRightDrive = hardwareMap.get(DcMotor.class, "fRDrive");
         backRightDrive = hardwareMap.get(DcMotor.class, "bRDrive");
         intakeFront = hardwareMap.get(DcMotor.class, "intakeFront");
+
+        CRServo lServoLow = hardwareMap.get(CRServo.class, "lServoLow");
+        CRServo rServoLow = hardwareMap.get(CRServo.class, "rServoLow");
 
 
         frontLeftDrive.setZeroPowerBehavior(BRAKE);
@@ -112,23 +118,29 @@ public class noPedroTeleop extends LinearOpMode {
 
             if (gamepad2.right_trigger > 0) {
                 intakeFront.setPower(-.7);
-                Intake.servoOut();
+
+
+                lServoLow.setPower(.7);
+                rServoLow.setPower(-.7);
             }
 
             if (gamepad2.left_trigger > 0) {
                 intakeFront.setPower(.5);
-                Intake.servoOut();
+                lServoLow.setPower(-.7);
+                rServoLow.setPower(.7);
 
             }
-            if (gamepad2.dpadUpWasReleased()){
-                intakeFront.setPower(0);
-                Intake.lServoLow.setPower(lowServoOff);
-                Intake.rServoLow.setPower(lowServoOff);
-                
-            }
+
             if (gamepad2.right_bumper){
                 Launcher.lServo.setPower(-.7);
                 Launcher.rServo.setPower(.7);
+
+            }
+
+            if (gamepad2.dpadUpWasReleased()){
+                intakeFront.setPower(0);
+                lServoLow.setPower(0);
+                rServoLow.setPower(0);
 
             }
 

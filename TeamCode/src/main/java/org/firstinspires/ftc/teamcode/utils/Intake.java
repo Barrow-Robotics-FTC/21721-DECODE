@@ -24,32 +24,23 @@ public class Intake {
         intakeFront = hardwareMap.get(DcMotor.class, "intakeFront");
         intakeFront.setDirection(DcMotor.Direction.FORWARD);
 
-        lServoLow = hardwareMap.get(CRServo.class, "lServoLow");
-        rServoLow = hardwareMap.get(CRServo.class, "rServoLow");
+
 
     }
 
-    public static void stop(){
-        intakeFront.setPower(0);
-    }
+
 
     public static void in(){
+
         intakeFront.setPower(intakePower);
     }
 
     public static void out(){
+
         intakeFront.setPower(intakePowerOut);
     }
 
-    public static void servoIn(){
-        lServoLow.setPower(lowServoPower);
-        rServoLow.setPower(-lowServoPower);
-    }
 
-    public static void servoOut(){
-        lServoLow.setPower(-lowServoPower);
-        rServoLow.setPower(lowServoPower);
-    }
 
 
 }
