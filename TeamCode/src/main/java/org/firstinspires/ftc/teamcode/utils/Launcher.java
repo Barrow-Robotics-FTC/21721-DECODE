@@ -11,19 +11,19 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 public class Launcher {
     // Launcher constants
-    int TARGET_RPM = 1500;
+    int TARGET_RPM = 1200;
     final int RPM_TOLERANCE = 50;
     final int RPM_IN_RANGE_TIME = 250;
     final int MIN_TIME_BETWEEN_LAUNCHES = 750;
-    final double feedPower = .6;
-    final int FEED_TIME = 1;
+    final double feedPower = .8;
+    final int FEED_TIME = 1000;
 
     public boolean launched = false;
 
     // Motors and servos
     public DcMotorEx chipMotor;
-    public CRServo lServo;
-    public CRServo rServo;
+    public static CRServo lServo;
+    public static CRServo rServo;
 
     // Other variables
     public State state = State.IDLE;
@@ -50,8 +50,6 @@ public class Launcher {
         chipMotor.setDirection(DcMotorEx.Direction.FORWARD);
 
         // Make sure servos are stopped
-        lServo.setPower(0);
-        rServo.setPower(0);
     }
 
     public enum State {

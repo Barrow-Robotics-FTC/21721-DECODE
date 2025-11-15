@@ -5,11 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.utils.Intake;
 import org.firstinspires.ftc.teamcode.utils.Launcher;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+import static org.firstinspires.ftc.teamcode.utils.Intake.lowServoOff;
+import static org.firstinspires.ftc.teamcode.utils.Intake.lowServoPower;
 
 
 @TeleOp(name="teleOP without PP", group="opmode")
@@ -109,15 +112,24 @@ public class noPedroTeleop extends LinearOpMode {
 
             if (gamepad2.right_trigger > 0) {
                 intakeFront.setPower(-.7);
-
+                Intake.servoOut();
             }
 
             if (gamepad2.left_trigger > 0) {
                 intakeFront.setPower(.5);
+                Intake.servoOut();
 
             }
             if (gamepad2.dpadUpWasReleased()){
                 intakeFront.setPower(0);
+                Intake.lServoLow.setPower(lowServoOff);
+                Intake.rServoLow.setPower(lowServoOff);
+                
+            }
+            if (gamepad2.right_bumper){
+                Launcher.lServo.setPower(-.7);
+                Launcher.rServo.setPower(.7);
+
             }
 
 
