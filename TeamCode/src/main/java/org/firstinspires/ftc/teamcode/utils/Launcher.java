@@ -11,7 +11,10 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 public class Launcher {
     // Launcher constants
-    int TARGET_RPM = 1200;
+    int CLOSE_TARGET_RPM = 500;
+    int FAR_TARGET_RPM = 800;
+    int TARGET_RPM = 1100;
+
     final int RPM_TOLERANCE = 50;
     final int RPM_IN_RANGE_TIME = 250;
     final int MIN_TIME_BETWEEN_LAUNCHES = 750;
@@ -21,7 +24,7 @@ public class Launcher {
     public boolean launched = false;
 
     // Motors and servos
-    public DcMotorEx chipMotor;
+    public static DcMotorEx chipMotor;
     public static CRServo lServo;
     public static CRServo rServo;
 
