@@ -12,7 +12,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.utils.Intake;
 import org.firstinspires.ftc.teamcode.utils.Launcher;
+import org.firstinspires.ftc.teamcode.utils.Ramp;
+
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+import static org.firstinspires.ftc.teamcode.utils.Intake.intakeFront;
 import static org.firstinspires.ftc.teamcode.utils.Intake.lowServoOff;
 import static org.firstinspires.ftc.teamcode.utils.Intake.lowServoPower;
 
@@ -30,6 +33,8 @@ public class noPedroTeleop extends LinearOpMode {
 
     private Launcher launcher;
     private Intake Intake;
+    private Ramp Ramp;
+
     public int targetLaunches;
 
     private float driveSpeed = .6F;
@@ -40,6 +45,8 @@ public class noPedroTeleop extends LinearOpMode {
     @Override
     public void runOpMode() {
         Launcher launcher = new Launcher(hardwareMap);
+        Ramp = new Ramp(hardwareMap);
+
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
         frontLeftDrive = hardwareMap.get(DcMotor.class, "fLDrive");
@@ -93,19 +100,18 @@ public class noPedroTeleop extends LinearOpMode {
             }
 
             if (gamepad2.bWasReleased()) {
-                targetLaunches = 2;
-                launcher.setTargetLaunches(targetLaunches);
-                launcher.launch();
+                Ramp.setPosFar();
             }
 
             if (gamepad2.aWasReleased()) {
-                targetLaunches = 3;
-                launcher.setTargetLaunches(targetLaunches);
-                launcher.launch();
+                Ramp.setPosAgainst();
+
             }
 
             if (gamepad2.left_bumper) {
-                launcher.stop();
+                launcher.lServo.setPower(launcher.feedPowerSwapped);
+                launcher.rServo.setPower(launcher.feedPower);
+                intakeFront.setPower(.3);
             }
 
             if (gamepad1.left_bumper) {
@@ -119,15 +125,10 @@ public class noPedroTeleop extends LinearOpMode {
             if (gamepad2.right_trigger > 0) {
                 intakeFront.setPower(-.7);
 
-
-                lServoLow.setPower(.7);
-                rServoLow.setPower(-.7);
             }
 
             if (gamepad2.left_trigger > 0) {
                 intakeFront.setPower(.5);
-                lServoLow.setPower(-.7);
-                rServoLow.setPower(.7);
 
             }
 
@@ -141,6 +142,7 @@ public class noPedroTeleop extends LinearOpMode {
                 intakeFront.setPower(0);
                 lServoLow.setPower(0);
                 rServoLow.setPower(0);
+                launcher.stop();
 
             }
 

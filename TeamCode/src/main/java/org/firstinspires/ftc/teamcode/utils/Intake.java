@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
-    public static double intakePower = (-.7);
+    public static double intakePower = (-.5);
     public static double intakePowerOut = (.5);
 
     public static double lowServoPower = (.7);

@@ -11,14 +11,16 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 public class Launcher {
     // Launcher constants
-    int CLOSE_TARGET_RPM = 500;
-    int FAR_TARGET_RPM = 800;
-    int TARGET_RPM = 1100;
+    int CLOSE_TARGET_RPM = 1200;
+    int FAR_TARGET_RPM = 1300;
+    int TARGET_RPM = 1300;
 
     final int RPM_TOLERANCE = 50;
     final int RPM_IN_RANGE_TIME = 250;
     final int MIN_TIME_BETWEEN_LAUNCHES = 750;
-    final double feedPower = 1;
+    public final double feedPower = .8;
+    public final double feedPowerSwapped = -.8;
+
     final int FEED_TIME = 1200;
 
     public boolean launched = false;
@@ -97,6 +99,8 @@ public class Launcher {
             inToleranceTimer.reset();
         }
     }
+
+
 
 
 
