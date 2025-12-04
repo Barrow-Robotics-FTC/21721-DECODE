@@ -145,8 +145,6 @@ public class noPedroTeleop extends LinearOpMode {
             double lateral =  (gamepad1.left_stick_y * driveSpeed);
             double yaw     =  (gamepad1.right_stick_x * driveSpeed);
 
-            // Combine the joystick requests for each axis-motion to determine each wheel's power.
-            // Set up a variable for each drive wheel to save the power level for telemetry.
             double frontLeftPower  = axial + lateral + yaw;
             double frontRightPower = axial - lateral - yaw;
             double backLeftPower   = axial - lateral + yaw;
