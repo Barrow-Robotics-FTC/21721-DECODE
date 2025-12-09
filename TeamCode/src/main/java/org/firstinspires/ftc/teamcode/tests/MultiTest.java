@@ -91,6 +91,9 @@ public class MultiTest extends LinearOpMode {
                 launcher.lServo.setPower(0);
                 launcher.rServo.setPower(0);
             }
+            if (gamepad1.dpadRightWasReleased()) {
+                launcher.launch();
+            }
             if (gamepad1.dpadDownWasReleased()) {
                 launcher.lServo.setPower(launcher.feedPowerSwapped);
                 launcher.rServo.setPower(launcher.feedPower);
