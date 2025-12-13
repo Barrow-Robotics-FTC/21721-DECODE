@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainCon
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-
+import android.util.Size;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -58,12 +58,12 @@ import java.util.concurrent.TimeUnit;
  *
  */
 
-@TeleOp(name="Omni Drive To AprilTag", group = "Concept")
-@Disabled
+@TeleOp(name="test april tag", group = "opmode")
+
 public class TeleOpAssistTest extends LinearOpMode
 {
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 100.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 80.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -110,8 +110,6 @@ public class TeleOpAssistTest extends LinearOpMode
         frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
         backRightDrive.setDirection(DcMotor.Direction.FORWARD);
 
-        if (USE_WEBCAM)
-            setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
 
         // Wait for driver to press start
         telemetry.addData("Camera preview on/off", "3 dots, Camera Stream");
@@ -165,10 +163,10 @@ public class TeleOpAssistTest extends LinearOpMode
             }
 
             // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
-            if (gamepad1.dpad_down && targetFound) {
+            if (gamepad1.left_bumper && targetFound) {
 
                 // Determine heading, range and Yaw (tag image rotation) error so we can use them to control the robot automatically.
-                double  rangeError      = (desiredTag.ftcPose.range - DESIRED_DISTANCE);
+                double  rangeError      = DESIRED_DISTANCE - (desiredTag.ftcPose.range);
                 double  headingError    = desiredTag.ftcPose.bearing;
                 double  yawError        = desiredTag.ftcPose.yaw;
 
@@ -180,9 +178,9 @@ public class TeleOpAssistTest extends LinearOpMode
                 telemetry.addData("Auto","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
             } else {
 
-                // drive using manual POV Joystick mode.  Slow things down to make the robot more controlable.
-                drive  = -gamepad1.left_stick_y  * .8;
-                strafe = -gamepad1.left_stick_x  *.8;
+                // drive using manual POV Joystick mode.  Slow things down to make the robot more controllable.
+                drive  = gamepad1.left_stick_x  * .5;
+                strafe = gamepad1.left_stick_y  *.5;
                 turn   = -gamepad1.right_stick_x *.5;
                 telemetry.addData("Manual","Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
             }
@@ -248,12 +246,9 @@ public class TeleOpAssistTest extends LinearOpMode
         // Create the vision portal by using a builder.
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
-                    .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
-                    .addProcessor(aprilTag)
-                    .build();
-        } else {
-            visionPortal = new VisionPortal.Builder()
-                    .setCamera(BuiltinCameraDirection.BACK)
+                    .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+                    .setCameraResolution(new Size (640, 480))
+                    .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                     .addProcessor(aprilTag)
                     .build();
         }

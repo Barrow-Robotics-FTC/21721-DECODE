@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import org.firstinspires.ftc.teamcode.utils.Intake;
 
 public class Launcher {
     // Launcher constants

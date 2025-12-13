@@ -94,7 +94,7 @@ public class noPedroTeleop extends LinearOpMode {
             launcher.update(true);
 
             if (gamepad2.yWasReleased()) {
-                targetLaunches = 1;
+                targetLaunches = 3;
                 launcher.setTargetLaunches(targetLaunches);
                 launcher.launch();
             }
@@ -114,7 +114,7 @@ public class noPedroTeleop extends LinearOpMode {
             if (gamepad2.left_bumper) {
                 launcher.lServo.setPower(launcher.feedPowerSwapped);
                 launcher.rServo.setPower(launcher.feedPower);
-                intakeFront.setPower(.3);
+                intakeFront.setPower(.6);
             }
 
             if (gamepad1.left_bumper) {
@@ -127,11 +127,10 @@ public class noPedroTeleop extends LinearOpMode {
 
             if (gamepad2.right_trigger > 0) {
                 intakeFront.setPower(-.7);
-                Launcher.chipMotor.setPower(-.05);
             }
 
             if (gamepad2.left_trigger > 0) {
-                intakeFront.setPower(.3);
+                intakeFront.setPower(.5);
 
             }
 
