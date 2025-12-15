@@ -55,7 +55,7 @@ public class moveLM1Auto extends LinearOpMode {
         // Drive forward for 1 seconds at half motor power
         frontLeftDrive.setPower(-.5);
         frontRightDrive.setPower(-.5);
-        sleep(500);
+        sleep(1500);
         frontLeftDrive.setPower(0);
         frontRightDrive.setPower(0);
 
