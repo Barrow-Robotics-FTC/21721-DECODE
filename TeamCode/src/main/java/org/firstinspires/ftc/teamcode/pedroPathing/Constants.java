@@ -16,10 +16,10 @@ public class Constants {
             .forwardZeroPowerAcceleration(-25.9346931313679598)
             .lateralZeroPowerAcceleration(-67.342491844080064)
             .translationalPIDFCoefficients(new PIDFCoefficients(
-                    0.03,
+                    0.4,
                     0,
-                    0,
-                    0.015
+                    0.05,
+                    0.03
             ))
             .translationalPIDFSwitch(4)
             .secondaryTranslationalPIDFCoefficients(new PIDFCoefficients(
@@ -65,8 +65,8 @@ public class Constants {
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .xVelocity(78.261926752421046666666666666667)
-            .yVelocity(61.494551922189565);
+            .xVelocity(78.32681346502831)
+            .yVelocity(60.06472321758122);
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .forwardPodY(2)
             .strafePodX(-7)

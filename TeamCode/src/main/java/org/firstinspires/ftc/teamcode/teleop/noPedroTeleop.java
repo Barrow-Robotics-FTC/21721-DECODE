@@ -36,6 +36,8 @@ public class noPedroTeleop extends LinearOpMode {
     private Ramp Ramp;
 
     public int targetLaunches;
+    public float slowPower = .4F;
+
 
     private float driveSpeed = .6F;
 
@@ -118,15 +120,24 @@ public class noPedroTeleop extends LinearOpMode {
             }
 
             if (gamepad1.left_bumper) {
-                driveSpeed = .2F;
+                driveSpeed = slowPower;
             }
+
+
+         //   if (gamepad1.dpadUpWasReleased()) {
+          //      slowPower = (slowPower + .05F);
+         //   }
+          //  if (gamepad1.dpadDownWasReleased()) {
+         //       slowPower = (slowPower - .05F);
+          //  }
+
 
             if (gamepad1.right_bumper) {
                 driveSpeed = .6F;
             }
 
             if (gamepad2.right_trigger > 0) {
-                intakeFront.setPower(-.7);
+                intakeFront.setPower(-1.0);
             }
 
             if (gamepad2.left_trigger > 0) {
@@ -154,8 +165,8 @@ public class noPedroTeleop extends LinearOpMode {
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
-            double axial   = (-gamepad1.left_stick_x * driveSpeed);  // Note: pushing stick forward gives negative value
-            double lateral =  (gamepad1.left_stick_y * driveSpeed);
+            double axial   = (-gamepad1.left_stick_y * driveSpeed);  // Note: pushing stick forward gives negative value
+            double lateral =  (gamepad1.left_stick_x * driveSpeed);
             double yaw     =  (gamepad1.right_stick_x * driveSpeed);
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
@@ -206,14 +217,7 @@ public class noPedroTeleop extends LinearOpMode {
 
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
-            telemetry.addData("target launches", targetLaunches);
-            telemetry.addData("frontLeftPower", frontLeftPower);
-            telemetry.addData("frontRightPower", frontRightPower);
-            telemetry.addData("backLeftPower", backLeftPower);
-            telemetry.addData("backRightPower", backRightPower);
+            telemetry.addData("slow mode power", slowPower);
             telemetry.update();
 
         }
