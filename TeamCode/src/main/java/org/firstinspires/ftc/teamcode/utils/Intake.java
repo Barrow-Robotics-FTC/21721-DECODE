@@ -24,14 +24,11 @@ public class Intake {
         intakeFront = hardwareMap.get(DcMotor.class, "intakeFront");
         intakeFront.setDirection(DcMotor.Direction.FORWARD);
 
-
-
     }
 
 
 
     public static void in(){
-
         intakeFront.setPower(intakePower);
     }
 

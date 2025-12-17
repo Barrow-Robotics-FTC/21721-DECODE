@@ -2,11 +2,14 @@ package org.firstinspires.ftc.teamcode.utils;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import org.firstinspires.ftc.teamcode.utils.Intake;
+
 
 public class LauncherV2 {
     // Launcher constants
@@ -19,6 +22,7 @@ public class LauncherV2 {
     final int MIN_TIME_BETWEEN_LAUNCHES = 500;
     public final double feedPower = .8;
     public final double feedPowerSwapped = -.8;
+    public static double intakePower = (-.4);
 
     final int FEED_TIME = 1200;
 
@@ -26,6 +30,8 @@ public class LauncherV2 {
 
     // Motors and servos
     public static DcMotorEx chipMotor;
+    public static DcMotorEx intakeFront;
+
     public static CRServo lServo;
     public static CRServo rServo;
 
@@ -35,6 +41,9 @@ public class LauncherV2 {
 
     public int targetLaunches;
     public boolean isBusy;
+    private Intake Intake;
+
+
 
     // timers
     private final ElapsedTime feedTimer = new ElapsedTime();
@@ -47,12 +56,15 @@ public class LauncherV2 {
         chipMotor = hardwareMap.get(DcMotorEx.class, "chipper");
         lServo = hardwareMap.get(CRServo.class, "lServo");
         rServo = hardwareMap.get(CRServo.class, "rServo");
+        intakeFront = hardwareMap.get(DcMotorEx.class, "intakeFront");
+
 
         // Set launcher motor characteristics
         chipMotor.setZeroPowerBehavior(BRAKE);
         chipMotor.setMode(com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER);
         chipMotor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(300,0,0,10));
         chipMotor.setDirection(DcMotorEx.Direction.FORWARD);
+        intakeFront.setDirection(DcMotor.Direction.FORWARD);
 
         // Make sure servos are stopped
     }
@@ -73,13 +85,13 @@ public class LauncherV2 {
     }
 
     public boolean isBusy() {
-        State currentState = getState();
-        if (currentState == State.IDLE) {
+        if (getState() == State.IDLE) {
             return true;
         }
         else {
             return false;
         }
+
     }
 
 
@@ -123,6 +135,7 @@ public class LauncherV2 {
                 chipMotor.setPower(0);
                 lServo.setPower(0);
                 rServo.setPower(0);
+                intakeFront.setPower(0);
                 break;
 
             case SPEED_UP:
@@ -134,8 +147,10 @@ public class LauncherV2 {
                         // Ready to feed
                         lServo.setPower(feedPower);
                         rServo.setPower(-feedPower);
+                        intakeFront.setPower(intakePower);
                         state = State.FEED;
                         feedTimer.reset();
+
                     }
                 } else {
                     inToleranceTimer.reset();
