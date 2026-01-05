@@ -29,9 +29,9 @@ public class Constants {
                     0.0006
             ))
             .headingPIDFCoefficients(new PIDFCoefficients(
-                    0.8,
+                    1,
                     0,
-                    0,
+                    0.015,
                     0.01
             ))
             .secondaryHeadingPIDFCoefficients(new PIDFCoefficients(
@@ -68,8 +68,8 @@ public class Constants {
             .xVelocity(78.32681346502831)
             .yVelocity(60.06472321758122);
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(2)
-            .strafePodX(-7)
+            .forwardPodY(-1)
+            .strafePodX(-7.5)
             .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
     /**
