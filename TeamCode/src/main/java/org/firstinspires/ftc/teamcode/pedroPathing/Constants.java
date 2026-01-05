@@ -43,7 +43,7 @@ public class Constants {
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(
                     0.1,
                     0,
-                    0.00035,
+                    0.0004,
                     0.6,
                     0.015
             ))
@@ -84,9 +84,9 @@ public class Constants {
             0.1,
             0.009,
             50,
-            1.25,
+            1,
             10,
-            1
+            .95
     );
     //Add custom localizers or drivetrains here
     public static Follower createFollower(HardwareMap hardwareMap) {
