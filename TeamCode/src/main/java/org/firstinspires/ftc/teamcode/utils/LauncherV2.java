@@ -22,9 +22,9 @@ public class LauncherV2 {
     final int MIN_TIME_BETWEEN_LAUNCHES = 500;
     public final double feedPower = .8;
     public final double feedPowerSwapped = -.8;
-    public static double intakePower = (-.4);
+    public static double intakePower = (-.3);
 
-    final int FEED_TIME = 1200;
+    final int FEED_TIME = 1000;
 
     public boolean launched = false;
 
@@ -114,7 +114,7 @@ public class LauncherV2 {
 
 
 
-    public void launch() {
+    public void launchV2() {
         if (state == State.IDLE) {
             state = State.SPEED_UP;
             launches = 0;

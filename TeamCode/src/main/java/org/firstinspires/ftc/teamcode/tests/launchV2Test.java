@@ -2,19 +2,19 @@ package org.firstinspires.ftc.teamcode.tests;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.utils.Launcher;
+import org.firstinspires.ftc.teamcode.utils.LauncherV2;
 
 @TeleOp(name = "Launcher V2 Test", group = "Opmode")
 public class launchV2Test extends LinearOpMode {
 
-    private Launcher launcher;
+    private LauncherV2 launcher;
 
     public static int targetLaunches;
 
 
     @Override
     public void runOpMode() {
-        launcher = new Launcher(hardwareMap);
+        launcher = new LauncherV2(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -26,12 +26,12 @@ public class launchV2Test extends LinearOpMode {
 
             if (gamepad1.rightBumperWasReleased()) {
                 targetLaunches = 1;
-                launcher.launch();
+                launcher.launchV2();
             }
 
-            if (gamepad1.rightBumperWasReleased()) {
+            if (gamepad1.leftBumperWasReleased()) {
                 targetLaunches = 3;
-                launcher.launch();
+                launcher.launchV2();
             }
 
 
