@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.utils.Ramp;
  */
 
 
-@Autonomous(name="RED LAUNCH - LM4 auto", group="Autonomous")
-public class launchLM3AutoRed extends LinearOpMode {
+@Autonomous(name="NEW - RED LAUNCH - LM4 auto", group="Autonomous")
+public class newLM4Auto extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         backRightDrive   = null;
@@ -85,7 +85,7 @@ public class launchLM3AutoRed extends LinearOpMode {
         sleep(1500);
         // LAUNCH
         launcher.chipMotor.setVelocity(AUTO_TARGET_RPM);
-        sleep(3000);
+        sleep(2000);
         intakeFront.setPower(intakePower);
         launcher.rServo.setPower(-.5);
         launcher.lServo.setPower(.5);
@@ -99,7 +99,7 @@ public class launchLM3AutoRed extends LinearOpMode {
         frontRightDrive.setPower(-.2);
         backLeftDrive.setPower(-.2);
         backRightDrive.setPower(-.2);
-        sleep(1000);
+        sleep(1500);
         frontLeftDrive.setPower(0);
         frontRightDrive.setPower(0);
         backLeftDrive.setPower(0);
@@ -110,7 +110,7 @@ public class launchLM3AutoRed extends LinearOpMode {
         frontRightDrive.setPower(.3);
         backLeftDrive.setPower(.3);
         backRightDrive.setPower(-.3);
-        sleep(1500);
+        sleep(2000);
         frontLeftDrive.setPower(0);
         backLeftDrive.setPower(0);
 

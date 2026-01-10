@@ -33,7 +33,7 @@ public class launchLM3AutoBlue extends LinearOpMode {
 
     private Launcher launcher;
 
-    double intakePower = -.5;
+    double intakePower = -.8;
     int TARGET_RPM = 1600;
     final int RPM_TOLERANCE = 50;
     final int RPM_IN_RANGE_TIME = 250;

@@ -144,7 +144,7 @@ public class noPedroTeleop extends LinearOpMode {
             }
 
             if (gamepad2.left_trigger > 0) {
-                intakeFront.setPower(.5);
+                intakeFront.setPower(.8);
 
             }
 
