@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.utils.Intake;
 import org.firstinspires.ftc.teamcode.utils.Launcher;
+import org.firstinspires.ftc.teamcode.utils.LauncherV2;
+
 import org.firstinspires.ftc.teamcode.utils.Ramp;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
@@ -31,7 +33,7 @@ public class noPedroTeleop extends LinearOpMode {
     private DcMotor backRightDrive = null;
     private DcMotor intakeFront = null;
 
-    private Launcher launcher;
+    private LauncherV2 launcher;
     private Intake Intake;
     private Ramp Ramp;
 
@@ -46,7 +48,8 @@ public class noPedroTeleop extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Launcher launcher = new Launcher(hardwareMap);
+        launcher = new LauncherV2(hardwareMap);
+
         Ramp = new Ramp(hardwareMap);
 
         // Initialize the hardware variables. Note that the strings used here must correspond
@@ -98,7 +101,7 @@ public class noPedroTeleop extends LinearOpMode {
             if (gamepad2.yWasReleased()) {
                 targetLaunches = 3;
                 launcher.setTargetLaunches(targetLaunches);
-                launcher.launch();
+                launcher.launchV2();
             }
 
             if (gamepad2.bWasReleased()) {

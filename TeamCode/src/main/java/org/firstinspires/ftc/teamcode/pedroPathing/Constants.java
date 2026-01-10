@@ -16,7 +16,7 @@ public class Constants {
             .forwardZeroPowerAcceleration(-25.9346931313679598)
             .lateralZeroPowerAcceleration(-67.342491844080064)
             .translationalPIDFCoefficients(new PIDFCoefficients(
-                    0.4,
+                    0.1,
                     0,
                     0.05,
                     0.03
@@ -79,7 +79,7 @@ public class Constants {
      The BEZIER_CURVE_SEARCH_LIMIT should typically be left at 10 and shouldn't be changed.
      */
     public static PathConstraints pathConstraints = new PathConstraints(
-            0.995,
+            0.980,
             0.1,
             0.1,
             0.009,
