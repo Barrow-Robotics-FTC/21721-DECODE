@@ -16,20 +16,19 @@ public class Constants {
             .forwardZeroPowerAcceleration(-25.9346931313679598)
             .lateralZeroPowerAcceleration(-67.342491844080064)
             .translationalPIDFCoefficients(new PIDFCoefficients(
-                    0.1,
+                    0.15,
+                    0,
+                    0.02,
+                    0.035
+            ))
+
+            .headingPIDFCoefficients(new PIDFCoefficients(
+                    2.0,
                     0,
                     0.05,
-                    0.03
+                    0.015
             ))
-            .translationalPIDFSwitch(4)
-            
-            .headingPIDFCoefficients(new PIDFCoefficients(
-                    1,
-                    0,
-                    0.015,
-                    0.01
-            ))
-            
+
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(
                     0.1,
                     0,
@@ -37,8 +36,7 @@ public class Constants {
                     0.6,
                     0.015
             ))
-            
-            .drivePIDFSwitch(15)
+
             .centripetalScaling(0.0005);
     public static MecanumConstants driveConstants = new MecanumConstants()
             .leftFrontMotorName("fLDrive")
@@ -68,7 +66,7 @@ public class Constants {
             0.1,
             0.009,
             50,
-            1,
+            1.5,
             10,
             .95
     );
