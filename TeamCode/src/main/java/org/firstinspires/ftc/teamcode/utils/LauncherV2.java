@@ -20,11 +20,11 @@ public class LauncherV2 {
     final int RPM_TOLERANCE = 50;
     final int RPM_IN_RANGE_TIME = 250;
     final int MIN_TIME_BETWEEN_LAUNCHES = 500;
-    public final double feedPower = .8;
-    public final double feedPowerSwapped = -.8;
-    public static double intakePower = (-.3);
+    public final double feedPower = 1;
+    public final double feedPowerSwapped = -1;
+    public static double intakePower = (-1);
 
-    final int FEED_TIME = 1000;
+    final int FEED_TIME = 3000;
 
     public boolean launched = false;
 

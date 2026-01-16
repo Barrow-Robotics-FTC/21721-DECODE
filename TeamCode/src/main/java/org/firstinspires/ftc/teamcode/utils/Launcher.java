@@ -22,7 +22,7 @@ public class Launcher {
     public final double feedPower = .8;
     public final double feedPowerSwapped = -.8;
 
-    final int FEED_TIME = 1200;
+    final int FEED_TIME = 3000;
 
     public boolean launched = false;
 

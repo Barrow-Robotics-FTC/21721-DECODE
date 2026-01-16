@@ -98,8 +98,9 @@ public class noPedroTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             launcher.update(true);
 
+
             if (gamepad2.yWasReleased()) {
-                targetLaunches = 3;
+                targetLaunches = 1;
                 launcher.setTargetLaunches(targetLaunches);
                 launcher.launchV2();
             }
