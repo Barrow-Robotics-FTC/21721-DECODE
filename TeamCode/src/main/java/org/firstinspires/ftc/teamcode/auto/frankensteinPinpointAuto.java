@@ -9,8 +9,8 @@ import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 import org.firstinspires.ftc.robotcore.internal.ftdi.eeprom.FT_EEPROM_2232H;
 
 
-@Autonomous(name="test encoder auto", group="Autonomous")
-public class encoderAutotest extends LinearOpMode {
+@Autonomous(name="frankenstein pinpoint auto", group="Autonomous")
+public class frankensteinPinpointAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         fLDrive   = null;
@@ -19,16 +19,8 @@ public class encoderAutotest extends LinearOpMode {
     private DcMotor         bRDrive  = null;
 
     private ElapsedTime     runtime = new ElapsedTime();
-
-    // Calculate the COUNTS_PER_INCH for your specific drive train.
-    // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
-    // For external drive gearing, set DRIVE_GEAR_REDUCTION as needed.
-    // For example, use a value of 2.0 for a 12-tooth spur gear driving a 24-tooth spur gear.
-    // This is gearing DOWN for less speed and more torque.
-    // For gearing UP, use a gear ratio less than 1.0. Note this will affect the direction of wheel rotation.
-
-    static final double     DRIVE_SPEED             = 0.4;
-    static final double     TURN_SPEED              = 0.2;
+    static final double     DRIVE_SPEED             = 0.8;
+    static final double     TURN_SPEED              = 0.3;
 
     @Override
     public void runOpMode() {
@@ -92,10 +84,8 @@ public class encoderAutotest extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = fLDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
-            newRightTarget = fRDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            fLDrive.setTargetPosition(newLeftTarget);
-            fRDrive.setTargetPosition(newRightTarget);
+
+
 
             // Turn On RUN_TO_POSITION
             fLDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
