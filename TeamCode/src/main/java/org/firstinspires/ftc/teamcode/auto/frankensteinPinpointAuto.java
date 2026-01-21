@@ -31,7 +31,7 @@ public class frankensteinPinpointAuto extends LinearOpMode {
 
     public class Poses {
 
-
+            Pose2D startPose = new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0);
 
 
     }
