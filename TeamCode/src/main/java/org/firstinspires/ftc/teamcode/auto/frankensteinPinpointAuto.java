@@ -1,12 +1,17 @@
 package org.firstinspires.ftc.teamcode.auto;
 
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
-import org.firstinspires.ftc.robotcore.internal.ftdi.eeprom.FT_EEPROM_2232H;
+
 
 
 @Autonomous(name="frankenstein pinpoint auto", group="Autonomous")
@@ -17,10 +22,19 @@ public class frankensteinPinpointAuto extends LinearOpMode {
     private DcMotor         fRDrive  = null;
     private DcMotor         bLDrive   = null;
     private DcMotor         bRDrive  = null;
+    GoBildaPinpointDriver pinpoint;
+
 
     private ElapsedTime     runtime = new ElapsedTime();
     static final double     DRIVE_SPEED             = 0.8;
     static final double     TURN_SPEED              = 0.3;
+
+    public class Poses {
+
+
+
+
+    }
 
     @Override
     public void runOpMode() {
@@ -30,7 +44,7 @@ public class frankensteinPinpointAuto extends LinearOpMode {
         fRDrive = hardwareMap.get(DcMotor.class, "fRDrive");
         bLDrive  = hardwareMap.get(DcMotor.class, "bLDrive");
         bRDrive = hardwareMap.get(DcMotor.class, "bRDrive");
-
+        pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
 
 
 
@@ -46,6 +60,8 @@ public class frankensteinPinpointAuto extends LinearOpMode {
         fRDrive.setZeroPowerBehavior(BRAKE);
         bLDrive.setZeroPowerBehavior(BRAKE);
         bRDrive.setZeroPowerBehavior(BRAKE);
+
+        configurePinpoint();
 
 
 
