@@ -53,6 +53,7 @@ public class frankensteinPedroAuto extends OpMode {
         public static PathChain collectToScore;
         public static PathChain rotateForLever;
         public static PathChain pushLever;
+        public static PathChain awayLever;
 
         public Paths(Follower follower) {
             startToAway = follower.pathBuilder().addPath(
@@ -124,6 +125,15 @@ public class frankensteinPedroAuto extends OpMode {
                     ).setConstantHeadingInterpolation(Math.toRadians(0))
 
                     .build();
+            awayLever = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(16, 71.000),
+
+                                    new Pose(40.000, 71.000)
+                            )
+                    ).setConstantHeadingInterpolation(Math.toRadians(0))
+
+                    .build();
         }
     }
 
@@ -186,6 +196,21 @@ public class frankensteinPedroAuto extends OpMode {
                 if(!follower.isBusy()) {
 
                     follower.followPath(Paths.pushLever, true);
+                    setPathState(8);
+                }
+                break;
+            case 8:
+
+                if(!follower.isBusy()) {
+
+                    follower.followPath(Paths.awayLever, true);
+                    setPathState(9);
+                }
+                break;
+            case 9:
+
+                if(!follower.isBusy()) {
+
                     setPathState(-1);
                 }
                 break;
