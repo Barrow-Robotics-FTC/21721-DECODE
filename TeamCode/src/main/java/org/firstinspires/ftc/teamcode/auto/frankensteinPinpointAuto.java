@@ -22,18 +22,36 @@ public class frankensteinPinpointAuto extends LinearOpMode {
     private DcMotor         fRDrive  = null;
     private DcMotor         bLDrive   = null;
     private DcMotor         bRDrive  = null;
+    private Boolean robotIsBusy;
+
     GoBildaPinpointDriver pinpoint;
 
 
     private ElapsedTime     runtime = new ElapsedTime();
-    static final double     DRIVE_SPEED             = 0.8;
-    static final double     TURN_SPEED              = 0.3;
+    static final double     driveSpeed             = 0.8;
+    static final double     turnSpeed              = 0.2;
+    static final double     posTolerance              = 2.0;
+
 
     public class Poses {
 
             Pose2D startPose = new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0);
+            Pose2D nextPosExample = new Pose2D(DistanceUnit.INCH, 10, 0, AngleUnit.DEGREES, 0);
 
 
+    }
+
+    public void configurePinpoint(){
+
+        // basic pinpoint-constants stuff
+
+        pinpoint.setOffsets(-7.5, -1, DistanceUnit.INCH);
+
+        pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+
+        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+
+        pinpoint.resetPosAndIMU();
     }
 
     @Override
@@ -66,7 +84,6 @@ public class frankensteinPinpointAuto extends LinearOpMode {
 
 
         // Send telemetry message to indicate successful Encoder reset
-        telemetry.addData("Starting at", DRIVE_SPEED);
 
         telemetry.update();
 
@@ -75,69 +92,33 @@ public class frankensteinPinpointAuto extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);  // pause to display final telemetry message.
     }
 
-    /*
-     *  Method to perform a relative move, based on encoder counts.
-     *  Encoders are not reset as the move is based on the current position.
-     *  Move will stop if any of three conditions occur:
-     *  1) Move gets to the desired position
-     *  2) Move runs out of time
-     *  3) Driver stops the OpMode running.
-     */
-    public void encoderDrive(double speed, double leftInches, double rightInches, double timeoutS) {
-        int newLeftTarget;
-        int newRightTarget;
 
-        // Ensure that the OpMode is still active
-        if (opModeIsActive()) {
-
-            // Determine new target position, and pass to motor controller
+    public void Drive(double driveSpeed, Pose2D target) {
+        robotIsBusy = true;
+        double targetPosX = target.getX(DistanceUnit.INCH);
+        double targetPosY = target.getY(DistanceUnit.INCH);
 
 
+        fLDrive.setPower(driveSpeed);
+        fRDrive.setPower(driveSpeed);
+        bRDrive.setPower(driveSpeed);
+        bRDrive.setPower(driveSpeed);
 
-            // Turn On RUN_TO_POSITION
-            fLDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            fRDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        if ((pinpoint.getPosition()) > ) {
 
-            // reset the timeout time and start motion.
-            runtime.reset();
-            fLDrive.setPower(Math.abs(speed));
-            fRDrive.setPower(Math.abs(speed));
-
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opModeIsActive() &&
-                    (runtime.seconds() < timeoutS) &&
-                    (fLDrive.isBusy() && fRDrive.isBusy())) {
-
-                // Display it for the driver.
-                telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);
-                telemetry.addData("Currently at",  " at %7d :%7d",
-                        fLDrive.getCurrentPosition(), fRDrive.getCurrentPosition());
-                telemetry.update();
-            }
-
-            // Stop all motion;
-            fLDrive.setPower(0);
-            fRDrive.setPower(0);
-
-            // Turn off RUN_TO_POSITION
-            fLDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            fRDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            sleep(250);   // optional pause after each move.
         }
+
+
+
+
+
+
     }
 }
