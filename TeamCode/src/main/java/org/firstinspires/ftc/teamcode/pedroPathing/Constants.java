@@ -1,6 +1,4 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
-import com.pedropathing.control.PIDFCoefficients;
-import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -10,72 +8,49 @@ import com.pedropathing.paths.PathConstraints;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(11.3398092)
-            .forwardZeroPowerAcceleration(-25.9346931313679598)
-            .lateralZeroPowerAcceleration(-67.342491844080064)
-            .translationalPIDFCoefficients(new PIDFCoefficients(
-                    0.1,
-                    0,
-                    0.015,
-                    0
-            ))
+        .mass(18)
+        .forwardZeroPowerAcceleration(-31.6333422189949)
+        .lateralZeroPowerAcceleration(-54.16267160188113)
 
-            .headingPIDFCoefficients(new PIDFCoefficients(
-                    .7,
-                    0,
-                    0.02,
-                    0.031
-            ))
 
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(
-                    0.01,
-                    0,
-                    0.001,
-                    0.6,
-                    0.001
-            ))
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 100, 1, 1);
 
-            .centripetalScaling(0.0005);
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .leftFrontMotorName("fLDrive")
-            .leftRearMotorName("bLDrive")
+            .maxPower(1)
             .rightFrontMotorName("fRDrive")
             .rightRearMotorName("bRDrive")
+            .leftRearMotorName("bLDrive")
+            .leftFrontMotorName("fLDrive")
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .xVelocity(78.32681346502831)
-            .yVelocity(60.06472321758122);
+            .xVelocity(80.37750580554872)
+            .yVelocity(58.530292661171266)
+
+
+
+
+
+    public static Follower createFollower(HardwareMap hardwareMap) {
+        return new FollowerBuilder(followerConstants, hardwareMap)
+                .pathConstraints(pathConstraints)
+                .mecanumDrivetrain(driveConstants)
+                .pinpointLocalizer(localizerConstants)
+                .build();
+    }
+
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .forwardPodY(-1)
             .strafePodX(-7.5)
+            .distanceUnit(DistanceUnit.INCH)
+            .hardwareMapName("pinpoint")
+            .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
             .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.REVERSED);
-    /**
-     These are the PathConstraints in order:
-     tValueConstraint, velocityConstraint, translationalConstraint, headingConstraint, timeoutConstraint,
-     brakingStrength, BEZIER_CURVE_SEARCH_LIMIT, brakingStart
-     The BEZIER_CURVE_SEARCH_LIMIT should typically be left at 10 and shouldn't be changed.
-     */
-    public static PathConstraints pathConstraints = new PathConstraints(
-            0.9,
-            0.1,
-            0.1,
-            0.009,
-            50,
-            1,
-            10,
-            .95
-    );
-    //Add custom localizers or drivetrains here
-    public static Follower createFollower(HardwareMap hardwareMap) {
-        return new FollowerBuilder(followerConstants, hardwareMap)
-                .mecanumDrivetrain(driveConstants)
-                .pinpointLocalizer(localizerConstants)
-                .pathConstraints(pathConstraints)
-                .build();
-    }
 }
