@@ -116,6 +116,7 @@ public class LauncherV2 {
 
     public void launchV2() {
         if (state == State.IDLE) {
+            isBusy = true;
             state = State.SPEED_UP;
             launches = 0;
             inToleranceTimer.reset();
@@ -178,6 +179,7 @@ public class LauncherV2 {
                         inToleranceTimer.reset();
                     }
                 }
+                isBusy = false;
                 break;
         }
     }
