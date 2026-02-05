@@ -61,8 +61,8 @@ import org.firstinspires.ftc.teamcode.utils.Ramp;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Robot: Auto Drive By Gyro", group="auto")
-public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
+@Autonomous(name="RED - far 3 ball", group="auto")
+public class far3autoRED extends LinearOpMode {
 
     /* Declare OpMode members. */
     private DcMotor         backLeftDrive   = null;
@@ -93,14 +93,14 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing.
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                                                      (WHEEL_DIAMETER_INCHES * 3.1415);
+            (WHEEL_DIAMETER_INCHES * 3.1415);
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
     static final double     DRIVE_SPEED             = 0.4;     // Max driving speed for better distance accuracy.
     static final double     TURN_SPEED              = 0.2;     // Max turn speed to limit turn rate.
     static final double     HEADING_THRESHOLD       = 1.0 ;    // How close must the heading get to the target before moving to next step.
-                                                               // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
+    // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
     // Define the Proportional control coefficient (or GAIN) for "heading control".
     // We define one value when Turning (larger errors), and the other is used when Driving straight (smaller errors).
     // Increase these numbers if the heading does not correct strongly enough (eg: a heavy robot or using tracks)
@@ -175,15 +175,21 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
         //          Add a sleep(2000) after any step to keep the telemetry data visible for review
 
         ramp.setPosFar();
-        launcher.TARGET_RPM = 1675;
-        turnToHeading( TURN_SPEED, 20);
+        launcher.TARGET_RPM = 1680;
+        turnToHeading(TURN_SPEED, -22);
         launcher.launchV2();
+
+
 
         while (opModeIsActive() && launcher.getState() != LauncherV2.State.IDLE) {
             launcher.update(true);
             telemetry.addData("Launcher State", launcher.getState());
             telemetry.update();
         }
+        forward(.3, 1000);
+
+
+
 
 
 
@@ -245,7 +251,7 @@ public class RobotAutoDriveByGyro_Linear extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                   (frontLeftDrive.isBusy() && frontRightDrive.isBusy())) {
+                    (frontLeftDrive.isBusy() && frontRightDrive.isBusy())) {
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
