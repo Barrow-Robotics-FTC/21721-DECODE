@@ -22,7 +22,7 @@ import static org.firstinspires.ftc.teamcode.utils.Intake.lowServoOff;
 import static org.firstinspires.ftc.teamcode.utils.Intake.lowServoPower;
 
 
-@TeleOp(name="teleOP without PP", group="opmode")
+@TeleOp(name="LEAGUE TELEOP", group="opmode")
 public class noPedroTeleop extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
@@ -115,6 +115,11 @@ public class noPedroTeleop extends LinearOpMode {
                 launcher.TARGET_RPM = launcher.CLOSE_TARGET_RPM;
 
 
+            }
+
+            if (gamepad2.xWasReleased()) {
+                Ramp.setPosFar();
+                launcher.TARGET_RPM = launcher.FAR_FAR_TARGET_RPM;
             }
 
             if (gamepad2.left_bumper) {
