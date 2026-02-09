@@ -10,8 +10,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
-import org.firstinspires.ftc.teamcode.utils.LauncherV2;
-import org.firstinspires.ftc.teamcode.utils.Ramp;
 
 /*
  *  This OpMode illustrates the concept of driving an autonomous path based on Gyro (IMU) heading and encoder counts.
@@ -61,14 +59,12 @@ import org.firstinspires.ftc.teamcode.utils.Ramp;
  *  Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="RED - far 3 ball", group="auto")
-public class far3autoRED extends LinearOpMode {
+@Autonomous(name="LT test", group="Auto")
+public class AutoThing extends LinearOpMode {
 
     /* Declare OpMode members. */
-    private DcMotor         backLeftDrive   = null;
-    private DcMotor         frontLeftDrive  = null;
-    private DcMotor         backRightDrive   = null;
-    private DcMotor         frontRightDrive  = null;
+    private DcMotor         leftDrive   = null;
+    private DcMotor         rightDrive  = null;
     private IMU             imu         = null;      // Control/Expansion Hub IMU
 
     private double          headingError  = 0;
@@ -97,7 +93,7 @@ public class far3autoRED extends LinearOpMode {
 
     // These constants define the desired driving/control characteristics
     // They can/should be tweaked to suit the specific robot drive train.
-    static final double     DRIVE_SPEED             = 0.4;     // Max driving speed for better distance accuracy.
+    static final double     DRIVE_SPEED             = 0.2;     // Max driving speed for better distance accuracy.
     static final double     TURN_SPEED              = 0.2;     // Max turn speed to limit turn rate.
     static final double     HEADING_THRESHOLD       = 1.0 ;    // How close must the heading get to the target before moving to next step.
     // Requiring more accuracy (a smaller number) will often make the turn take longer to get into the final position.
@@ -108,36 +104,27 @@ public class far3autoRED extends LinearOpMode {
     static final double     P_TURN_GAIN            = 0.02;     // Larger is more responsive, but also less stable.
     static final double     P_DRIVE_GAIN           = 0.03;     // Larger is more responsive, but also less stable.
 
-    private LauncherV2 launcher;
-    private Ramp ramp;
+
     @Override
     public void runOpMode() {
-        launcher = new LauncherV2(hardwareMap);
-
-        ramp = new Ramp(hardwareMap);
 
         // Initialize the drive system variables.
-        frontLeftDrive  = hardwareMap.get(DcMotor.class, "fLDrive");
-        frontRightDrive = hardwareMap.get(DcMotor.class, "fRDrive");
-        backLeftDrive  = hardwareMap.get(DcMotor.class, "bLDrive");
-        backRightDrive = hardwareMap.get(DcMotor.class, "bRDrive");
-
+        leftDrive  = hardwareMap.get(DcMotor.class, "fLDrive");
+        rightDrive = hardwareMap.get(DcMotor.class, "fRDrive");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);
 
         /* The next two lines define Hub orientation.
          * The Default Orientation (shown) is when a hub is mounted horizontally with the printed logo pointing UP and the USB port pointing FORWARD.
          *
          * To Do:  EDIT these two lines to match YOUR mounting configuration.
          */
-        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.LEFT;
-        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.UP;
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.UsbFacingDirection  usbDirection  = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
 
         // Now initialize the IMU with this mounting orientation
@@ -146,17 +133,10 @@ public class far3autoRED extends LinearOpMode {
         imu.initialize(new IMU.Parameters(orientationOnRobot));
 
         // Ensure the robot is stationary.  Reset the encoders and set the motors to BRAKE mode
-        frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-
+        leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Wait for the game to start (Display Gyro value while waiting)
         while (opModeInInit()) {
@@ -165,38 +145,15 @@ public class far3autoRED extends LinearOpMode {
         }
 
         // Set the encoders for closed loop speed control, and reset the heading.
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         imu.resetYaw();
 
-        // Step through each leg of the path,
-        // Notes:   Reverse movement is obtained by setting a negative distance (not speed)
-        //          holdHeading() is used after turns to let the heading stabilize
-        //          Add a sleep(2000) after any step to keep the telemetry data visible for review
+       // add code
 
-        ramp.setPosFar();
-        launcher.TARGET_RPM = 1650;
-        turnToHeading(TURN_SPEED, -22);
-        launcher.launchV2();
+        driveStraight(DRIVE_SPEED, -36.0, 0.0);    // Drive Forward 24"
+        turnToHeading( TURN_SPEED, -45.0);               // Turn  CW to -45 Degrees
 
-
-
-        while (opModeIsActive() && launcher.getState() != LauncherV2.State.IDLE) {
-            launcher.update(true);
-            telemetry.addData("Launcher State", launcher.getState());
-            telemetry.update();
-        }
-        turnToHeading(TURN_SPEED, -90);
-        forward(.3, 2500);
-
-
-
-
-
-
-
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
         sleep(1000);  // Pause to display last telemetry message.
     }
 
@@ -209,23 +166,18 @@ public class far3autoRED extends LinearOpMode {
 
     // **********  HIGH Level driving functions.  ********************
 
-
-
-    public void forward(double dp, int dt) {
-        int driveTime = dt;
-        double drivePower = dp;
-
-        frontLeftDrive.setPower(dp);
-        frontRightDrive.setPower(dp);
-        backLeftDrive.setPower(dp);
-        backRightDrive.setPower(dp);
-        sleep(driveTime);
-        frontLeftDrive.setPower(0);
-        frontRightDrive.setPower(0);
-        backLeftDrive.setPower(0);
-        backRightDrive.setPower(0);
-
-    }
+    /**
+     *  Drive in a straight line, on a fixed compass heading (angle), based on encoder counts.
+     *  Move will stop if either of these conditions occur:
+     *  1) Move gets to the desired position
+     *  2) Driver stops the OpMode running.
+     *
+     * @param maxDriveSpeed MAX Speed for forward/rev motion (range 0 to +1.0) .
+     * @param distance   Distance (in inches) to move from current position.  Negative distance means move backward.
+     * @param heading      Absolute Heading Angle (in Degrees) relative to last gyro reset.
+     *                   0 = fwd. +ve is CCW from fwd. -ve is CW from forward.
+     *                   If a relative angle is required, add/subtract from the current robotHeading.
+     */
     public void driveStraight(double maxDriveSpeed,
                               double distance,
                               double heading) {
@@ -235,15 +187,15 @@ public class far3autoRED extends LinearOpMode {
 
             // Determine new target position, and pass to motor controller
             int moveCounts = (int)(distance * COUNTS_PER_INCH);
-            leftTarget = frontLeftDrive.getCurrentPosition() + moveCounts;
-            rightTarget = frontRightDrive.getCurrentPosition() + moveCounts;
+            leftTarget = leftDrive.getCurrentPosition() + moveCounts;
+            rightTarget = rightDrive.getCurrentPosition() + moveCounts;
 
             // Set Target FIRST, then turn on RUN_TO_POSITION
-            frontLeftDrive.setTargetPosition(leftTarget);
-            frontRightDrive.setTargetPosition(rightTarget);
+            leftDrive.setTargetPosition(leftTarget);
+            rightDrive.setTargetPosition(rightTarget);
 
-            frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // Set the required driving speed  (must be positive for RUN_TO_POSITION)
             // Start driving straight, and then enter the control loop
@@ -252,7 +204,7 @@ public class far3autoRED extends LinearOpMode {
 
             // keep looping while we are still active, and BOTH motors are running.
             while (opModeIsActive() &&
-                    (frontLeftDrive.isBusy() && frontRightDrive.isBusy())) {
+                    (leftDrive.isBusy() && rightDrive.isBusy())) {
 
                 // Determine required steering to keep on heading
                 turnSpeed = getSteeringCorrection(heading, P_DRIVE_GAIN);
@@ -270,8 +222,8 @@ public class far3autoRED extends LinearOpMode {
 
             // Stop all motion & Turn off RUN_TO_POSITION
             moveRobot(0, 0);
-            frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
     }
 
@@ -395,8 +347,8 @@ public class far3autoRED extends LinearOpMode {
             rightSpeed /= max;
         }
 
-        frontLeftDrive.setPower(leftSpeed);
-        frontRightDrive.setPower(rightSpeed);
+        leftDrive.setPower(leftSpeed);
+        rightDrive.setPower(rightSpeed);
     }
 
     /**
@@ -409,8 +361,8 @@ public class far3autoRED extends LinearOpMode {
         if (straight) {
             telemetry.addData("Motion", "Drive Straight");
             telemetry.addData("Target Pos L:R",  "%7d:%7d",      leftTarget,  rightTarget);
-            telemetry.addData("Actual Pos L:R",  "%7d:%7d",      frontLeftDrive.getCurrentPosition(),
-                    frontRightDrive.getCurrentPosition());
+            telemetry.addData("Actual Pos L:R",  "%7d:%7d",      leftDrive.getCurrentPosition(),
+                    rightDrive.getCurrentPosition());
         } else {
             telemetry.addData("Motion", "Turning");
         }

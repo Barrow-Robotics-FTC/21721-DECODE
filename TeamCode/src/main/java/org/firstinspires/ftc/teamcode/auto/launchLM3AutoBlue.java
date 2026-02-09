@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.utils.Launcher;
+import org.firstinspires.ftc.teamcode.utils.LauncherV2;
 import org.firstinspires.ftc.teamcode.utils.Ramp;
 
 
@@ -31,7 +31,7 @@ public class launchLM3AutoBlue extends LinearOpMode {
     private DcMotor         intakeFront  = null;
 
 
-    private Launcher launcher;
+    private LauncherV2 launcher;
 
     double intakePower = -.8;
     int TARGET_RPM = 1600;
@@ -47,7 +47,7 @@ public class launchLM3AutoBlue extends LinearOpMode {
     public void runOpMode() {
 
 
-        launcher = new Launcher(hardwareMap);
+        launcher = new LauncherV2(hardwareMap);
         launcher.update(true);
         Ramp Ramp = new Ramp(hardwareMap);
 
@@ -83,13 +83,28 @@ public class launchLM3AutoBlue extends LinearOpMode {
         sleep(50);
         Ramp.setPosAgainst();
         sleep(1500);
+
+
+        frontLeftDrive.setPower(-.2);
+        frontRightDrive.setPower(-.2);
+        backLeftDrive.setPower(-.2);
+        backRightDrive.setPower(-.2);
+        sleep(250);
+        frontLeftDrive.setPower(0);
+        frontRightDrive.setPower(0);
+        backLeftDrive.setPower(0);
+        backRightDrive.setPower(0);
+
+
         // LAUNCH
-        launcher.chipMotor.setVelocity(AUTO_TARGET_RPM);
-        sleep(3000);
-        intakeFront.setPower(intakePower);
-        launcher.rServo.setPower(-.5);
-        launcher.lServo.setPower(.5);
-        sleep(4000);
+        launcher.TARGET_RPM = (launcher.CLOSE_TARGET_RPM);
+        launcher.launchV2();
+
+        while (opModeIsActive() && launcher.getState() != LauncherV2.State.IDLE) {
+            launcher.update(true);
+            telemetry.addData("Launcher State", launcher.getState());
+            telemetry.update();
+        }
         launcher.lServo.setPower(0);
         launcher.rServo.setPower(0);
         launcher.chipMotor.setVelocity(0);
