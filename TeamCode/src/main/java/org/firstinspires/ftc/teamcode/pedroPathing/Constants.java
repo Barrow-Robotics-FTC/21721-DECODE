@@ -23,9 +23,9 @@ public class Constants {
 
 
         .headingPIDFCoefficients(new PIDFCoefficients(
-                    1.5,
+                    1.1,
                     0,
-                    .08,
+                    0.03,
                     0.01
             ))
         .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(
