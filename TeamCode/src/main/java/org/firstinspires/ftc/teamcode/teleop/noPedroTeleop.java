@@ -38,10 +38,10 @@ public class noPedroTeleop extends LinearOpMode {
     private Ramp Ramp;
 
     public int targetLaunches;
-    public float slowPower = .4F;
+    public float slowPower = .3F;
 
 
-    private float driveSpeed = .6F;
+    private float driveSpeed = .8F;
 
 
 
@@ -133,16 +133,9 @@ public class noPedroTeleop extends LinearOpMode {
             }
 
 
-         //   if (gamepad1.dpadUpWasReleased()) {
-          //      slowPower = (slowPower + .05F);
-         //   }
-          //  if (gamepad1.dpadDownWasReleased()) {
-         //       slowPower = (slowPower - .05F);
-          //  }
-
 
             if (gamepad1.right_bumper) {
-                driveSpeed = .6F;
+                driveSpeed = .8F;
             }
 
             if (gamepad2.right_trigger > 0) {
@@ -183,7 +176,7 @@ public class noPedroTeleop extends LinearOpMode {
             double frontLeftPower  = axial + lateral + yaw;
             double frontRightPower = axial - lateral - yaw;
             double backLeftPower   = axial - lateral + yaw;
-            double backRightPower  = axial + lateral - yaw;
+            double backRightPower  = (axial + lateral - yaw) * 1.3;
 
 
             // Normalize the values so no wheel power exceeds 100%
