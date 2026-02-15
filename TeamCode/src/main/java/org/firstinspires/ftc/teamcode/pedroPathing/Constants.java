@@ -30,8 +30,8 @@ public class Constants {
             ))
         .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(
                 .1,
-                0,
-                0
+                .06013193345655383,
+                .001747533340838866
         ));
 
 
