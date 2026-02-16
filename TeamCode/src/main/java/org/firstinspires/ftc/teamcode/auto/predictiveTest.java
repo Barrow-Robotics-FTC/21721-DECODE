@@ -10,6 +10,7 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.geometry.Pose;
+import org.firstinspires.ftc.teamcode.utils.Intake;
 
 @Autonomous(name = "predictive PP test", group = "Autonomous")
 @Configurable // Panels
@@ -18,6 +19,7 @@ public class predictiveTest extends OpMode {
     public Follower follower; // Pedro Pathing follower instance
     private int pathState; // Current autonomous path state (state machine)
     private Paths paths; // Paths defined in the Paths class
+    Intake intake = new Intake(hardwareMap);
 
     @Override
     public void init() {
@@ -77,22 +79,27 @@ public class predictiveTest extends OpMode {
     public int autonomousPathUpdate() {
         switch (pathState) {
             case 0:
-                // score preloaded ---------------------
+
                 setPathState(1);
                 break;
+
             case 1:
                 follower.followPath(predictiveTest.Paths.Path1);
                 break;
+
             case 2:
 
                 if(!follower.isBusy()) {
-
+                    Intake.in();
                     follower.followPath(predictiveTest.Paths.Path2,true);
-                    setPathState(-1);
+                    setPathState(3);
 
                 }
                 break;
 
+            case 3:
+                intake.off();
+                setPathState(-1);
 
         }
         return pathState;

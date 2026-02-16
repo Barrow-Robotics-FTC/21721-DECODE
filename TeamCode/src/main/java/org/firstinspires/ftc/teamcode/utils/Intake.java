@@ -5,11 +5,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Intake {
-    public static double intakePower = (-.5);
-    public static double intakePowerOut = (.5);
+    public static double intakePower = (-1);
+    public static double intakePowerOut = (1);
 
-    public static double lowServoPower = (.7);
-    public static double lowServoOff = (0);
 
 
 
@@ -35,6 +33,10 @@ public class Intake {
     public static void out(){
 
         intakeFront.setPower(intakePowerOut);
+    }
+
+    public static void off(){
+        intakeFront.setPower(0);
     }
 
 
