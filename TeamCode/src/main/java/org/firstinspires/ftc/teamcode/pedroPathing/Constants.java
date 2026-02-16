@@ -23,9 +23,9 @@ public class Constants {
 
 
         .headingPIDFCoefficients(new PIDFCoefficients(
-                    1.1,
+                    1.5,
                     0,
-                    0.03,
+                    0,
                     0.01
             ))
         .predictiveBrakingCoefficients(new PredictiveBrakingCoefficients(
@@ -38,10 +38,15 @@ public class Constants {
 
 
     public static PathConstraints pathConstraints = new PathConstraints(
-            0.99,
-            100,
+            0.95,
+            0.1,
+            0.1,
+            0.009,
+            50,
             .9,
-            1);
+            10,
+            1
+    );
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)

@@ -58,6 +58,8 @@ public class predictiveTest extends OpMode {
                                     new Pose(72.000, 36.000)
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(180))
+                    // .addTemporalCallback(3000, (follower.isBusy() = false) )          ASK ABOUT CALLBACKS
+
 
                     .build();
 
@@ -82,15 +84,22 @@ public class predictiveTest extends OpMode {
                 break;
             case 1:
                 follower.followPath(predictiveTest.Paths.Path1);
+                setPathState(2);
+
+
+
                 break;
+
+
+
             case 2:
 
                 if(!follower.isBusy()) {
-
                     follower.followPath(predictiveTest.Paths.Path2,true);
                     setPathState(-1);
 
                 }
+
                 break;
 
 
