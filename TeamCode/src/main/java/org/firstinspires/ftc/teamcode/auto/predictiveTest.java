@@ -5,11 +5,17 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.TelemetryManager;
 import com.bylazar.telemetry.PanelsTelemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
+import org.firstinspires.ftc.teamcode.utils.Launcher;
+
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.geometry.Pose;
+import org.firstinspires.ftc.teamcode.utils.LauncherV2;
+import org.firstinspires.ftc.teamcode.utils.Intake;
+
+
 
 @Autonomous(name = "predictive PP test", group = "Autonomous")
 @Configurable // Panels
@@ -26,6 +32,12 @@ public class predictiveTest extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(new Pose(72, 8, Math.toRadians(90)));
 
+
+
+
+        Intake intake = new Intake(hardwareMap);
+        LauncherV2 launcher = new LauncherV2(hardwareMap);
+        launcher.update(true);
         paths = new Paths(follower); // Build paths
 
         panelsTelemetry.debug("Status", "Initialized");
@@ -82,7 +94,8 @@ public class predictiveTest extends OpMode {
                 // score preloaded ---------------------
                 setPathState(1);
                 break;
-            case 1:
+
+                case 1:
                 follower.followPath(predictiveTest.Paths.Path1);
                 setPathState(2);
 
@@ -95,13 +108,22 @@ public class predictiveTest extends OpMode {
             case 2:
 
                 if(!follower.isBusy()) {
+                    Intake.in();
                     follower.followPath(predictiveTest.Paths.Path2,true);
-                    setPathState(-1);
+                    setPathState(3);
 
                 }
 
                 break;
 
+            case 3:
+
+
+                if(!follower.isBusy()) {
+                    Intake.off();
+                    setPathState(-1);
+
+                }
 
         }
         return pathState;
