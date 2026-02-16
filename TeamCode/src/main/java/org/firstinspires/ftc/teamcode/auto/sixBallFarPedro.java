@@ -115,19 +115,15 @@ public class sixBallFarPedro extends OpMode {
                 follower.followPath(sixBallFarPedro.Paths.toPreload);
                 if(!follower.isBusy()) {
                     launcher.launchV2();
+                    setPathState(2);
 
-                    if(!launcher.isBusy()) {
-                        follower.followPath(sixBallFarPedro.Paths.toSpike);
-                        setPathState(2);
-
-                    }
 
                 }
                 break;
 
             case 2:
 
-                if(!follower.isBusy()) {
+                if(!launcher.isBusy()) {
                     Intake.in();
                     follower.followPath(sixBallFarPedro.Paths.collect);
                     setPathState(3);
@@ -148,15 +144,14 @@ public class sixBallFarPedro extends OpMode {
 
                 if(!follower.isBusy()) {
                     launcher.launchV2();
+                    setPathState(5);
 
-                    if(!launcher.isBusy()) {
-
-                        setPathState(-1);
-
-                    }
 
                 }
-
+            case 5:
+                if(!launcher.isBusy()) {
+                setPathState(-1);
+                }
 
 
 
