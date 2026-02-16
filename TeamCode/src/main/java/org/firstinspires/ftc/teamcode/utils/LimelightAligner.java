@@ -9,6 +9,27 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class LimelightAligner {
     // Default Gains - tune these as needed
+
+
+    /*
+     * TUNING GUIDE:
+     * 1. kP (Proportional): The "Strength." Increase until the robot moves
+     *    toward the target. If it starts to oscillate rapidly
+     *    around the center, decrease kP.
+     *
+     * 2. kD (Derivative): The "Damper." Use this to stop oscillations. If the robot
+     *    approaches the target quickly but overshoots, increase kD to "slow down"
+     *    the approach as the error gets smaller.
+     *
+     * 3. kI (Integral): The "Correction." Use only if the robot consistently stops
+     *    a few degrees short of the target due to friction. Start very small (e.g., 0.001)
+     *    to avoid "integral windup" which can cause violent swings.
+     *
+     * 4. Feedforward/MinOutput (Optional): If the robot doesn't move at all for small
+     *    errors, you may need a small 'Minimum Output' to overcome drivetrain friction.
+     */
+
+
     private double kP_rot = 0.025;
     private double kD_rot = 0.001;
     private double kP_dist = 0.04;
