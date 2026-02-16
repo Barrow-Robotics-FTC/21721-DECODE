@@ -136,6 +136,7 @@ public class sixBallFarPedro extends OpMode {
                     setPathState(4);
 
                 }
+                break;
 
             case 4:
 
@@ -146,6 +147,7 @@ public class sixBallFarPedro extends OpMode {
                     setPathState(5);
 
                 }
+                break;
 
             case 5:
 
@@ -153,32 +155,34 @@ public class sixBallFarPedro extends OpMode {
                 if(!follower.isBusy()) {
                     Intake.off();
                     follower.followPath(sixBallFarPedro.Paths.toScore);
-                    setPathState(4);
+                    setPathState(6);
 
                 }
+                break;
 
             case 6:
 
-                // check if launcher is done
+
                 if(!follower.isBusy()) {
                     launcher.launchV2();
-                    setPathState(3);
+                    setPathState(7);
 
                 }
+                break;
 
-            case 6:
+            case 7:
 
                 // check if launcher is done
-                if(!follower.isBusy()) {
-                    launcher.launchV2();
-                    setPathState(3);
+                if(!launcher.isBusy()) {
+                    setPathState(8);
 
                 }
+                break;
+            case 8:
 
 
-
-
-
+                setPathState(-1);
+                break;
 
 
 
