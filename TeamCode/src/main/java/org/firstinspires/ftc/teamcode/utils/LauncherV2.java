@@ -86,13 +86,7 @@ public class LauncherV2 {
     }
 
     public boolean isBusy() {
-        if (getState() == State.IDLE) {
-            return true;
-        }
-        else {
-            return false;
-        }
-
+        return state != State.IDLE;
     }
 
 
