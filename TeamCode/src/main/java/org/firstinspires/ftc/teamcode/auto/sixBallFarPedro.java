@@ -79,7 +79,7 @@ public class sixBallFarPedro extends OpMode {
 
                                     new Pose(60, 12)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(100))
+                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(120))
 
                     .build();
 
@@ -89,7 +89,7 @@ public class sixBallFarPedro extends OpMode {
 
                                     new Pose(48.000, 26)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(100), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(120), Math.toRadians(180))
 
                     .build();
 
@@ -131,6 +131,8 @@ public class sixBallFarPedro extends OpMode {
 
             case 2:
                 if(!follower.isBusy()   &&    !launcher.isBusy()  ) {
+
+
                     follower.followPath(sixBallFarPedro.Paths.toSpike,true );
                     setPathState(3);
                 }
@@ -138,6 +140,8 @@ public class sixBallFarPedro extends OpMode {
 
             case 3:
                 if(!follower.isBusy()) {
+                    //SLOW DOWN TO .2 POWER
+
                     intake.in();
                     follower.followPath(sixBallFarPedro.Paths.collect, true);
                     setPathState(4);
