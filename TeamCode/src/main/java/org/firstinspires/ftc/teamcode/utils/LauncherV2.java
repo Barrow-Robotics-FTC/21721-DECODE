@@ -119,6 +119,10 @@ public class LauncherV2 {
         }
     }
 
+    public void startSpeed(int vel){
+        chipMotor.setVelocity(vel);
+    }
+
 
 
     public State getState() {

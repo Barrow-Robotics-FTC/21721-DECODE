@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.auto;
-import static java.lang.Thread.sleep;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
