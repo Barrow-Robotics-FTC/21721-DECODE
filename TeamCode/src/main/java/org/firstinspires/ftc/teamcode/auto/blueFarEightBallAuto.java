@@ -16,16 +16,17 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.geometry.Pose;
 
-@Autonomous(name = "RED - FAR: 8 ball", group = "Autonomous")
+@Autonomous(name = "BlUE - FAR: 8 ball", group = "Autonomous")
 @Configurable // Panels
-public class redFar8ballAuto extends OpMode {
+public class blueFarEightBallAuto extends OpMode {
     private TelemetryManager panelsTelemetry; // Panels Telemetry instance
     public Follower follower; // Pedro Pathing follower instance
     private int pathState; // Current autonomous path state (state machine)
     private Paths paths; // Paths defined in the Paths class
     public LauncherV2 launcher;
-    private Intake intake;
     int targetLaunches = 1;
+
+    private Intake intake;
     private Ramp ramp; // Renamed to lower case for consistency
 
 
@@ -62,6 +63,8 @@ public class redFar8ballAuto extends OpMode {
         panelsTelemetry.debug("Y", follower.getPose().getY());
         panelsTelemetry.debug("Heading", follower.getPose().getHeading());
         panelsTelemetry.update(telemetry);
+
+        launcher.update(true);
     }
 
 
@@ -74,6 +77,7 @@ public class redFar8ballAuto extends OpMode {
         public static PathChain collectSpikeTwo;
         public static PathChain awayFromGate;
         public static PathChain toScoreTwo;
+        public static PathChain toEnd;
 
         public Paths(Follower follower) {
             toScorePreload = follower.pathBuilder().addPath(
@@ -82,25 +86,25 @@ public class redFar8ballAuto extends OpMode {
 
                                     new Pose(60.000, 12.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(60))
+                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(116))
 
                     .build();
 
             toSpikeOne = follower.pathBuilder().addPath(
                             new BezierCurve(
                                     new Pose(60.000, 12.000),
-                                    new Pose(60.000, 36.000),
-                                    new Pose(48.000, 36.000)
+                                    new Pose(60.000, 32.000),
+                                    new Pose(48.000, 32.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(60), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(116), Math.toRadians(180))
 
                     .build();
 
             collectSpikeOne = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(48.000, 36.000),
+                                    new Pose(48.000, 32.000),
 
-                                    new Pose(12.000, 36.000)
+                                    new Pose(9.5000, 32.000)
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(180))
 
@@ -108,11 +112,11 @@ public class redFar8ballAuto extends OpMode {
 
             toScoreOne = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(12.000, 36.000),
+                                    new Pose(9.5, 32.000),
 
                                     new Pose(60.000, 12.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(60))
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(116))
 
                     .build();
 
@@ -120,17 +124,17 @@ public class redFar8ballAuto extends OpMode {
                             new BezierLine(
                                     new Pose(60.000, 12.000),
 
-                                    new Pose(48.000, 60.000)
+                                    new Pose(48.000, 56.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(60), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(116), Math.toRadians(180))
 
                     .build();
 
             collectSpikeTwo = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(48.000, 60.000),
+                                    new Pose(48.000, 56.000),
 
-                                    new Pose(18.000, 60.000)
+                                    new Pose(9.5000, 56.000)
                             )
                     ).setTangentHeadingInterpolation()
 
@@ -138,9 +142,9 @@ public class redFar8ballAuto extends OpMode {
 
             awayFromGate = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(18.000, 60.000),
+                                    new Pose(9.5000, 56.000),
 
-                                    new Pose(36.000, 60.000)
+                                    new Pose(36.000, 56.000)
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(180))
 
@@ -148,11 +152,20 @@ public class redFar8ballAuto extends OpMode {
 
             toScoreTwo = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(36.000, 60.000),
+                                    new Pose(36.000, 56.000),
 
                                     new Pose(60.000, 12.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(120))
+                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(116))
+
+                    .build();
+            toEnd = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(60, 12),
+
+                                    new Pose(48.000, 24.000)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(116), Math.toRadians(180))
 
                     .build();
         }
@@ -168,7 +181,7 @@ public class redFar8ballAuto extends OpMode {
             case 1:
                 ramp.setPosFar();
                 launcher.launchV2();
-                follower.followPath(redFar8ballAuto.Paths.toScorePreload,true );
+                follower.followPath(Paths.toScorePreload,true );
                 setPathState(2);
                 break;
 
@@ -186,7 +199,7 @@ public class redFar8ballAuto extends OpMode {
                     //SLOW DOWN TO .2 POWER
 
                     intake.in();
-                    follower.followPath(Paths.collectSpikeOne, true);
+                    follower.followPath(Paths.collectSpikeOne,.3, true);
                     setPathState(4);
                 }
                 break;
@@ -210,18 +223,19 @@ public class redFar8ballAuto extends OpMode {
 
             case 6:
                 if(!follower.isBusy()) {
-                    Intake.in();
+                    intake.in();
 
                     // LOWER SPEED
 
-                    follower.followPath(Paths.collectSpikeTwo, true);
+                    follower.followPath(Paths.collectSpikeTwo,.3, true);
                     setPathState(7);
                 }
                 break;
 
             case 7:
                 if(!follower.isBusy()) {
-                    Intake.off();
+                    intake.off();
+                    launcher.startSpeed(launcher.FAR_FAR_TARGET_RPM);
                     follower.followPath(Paths.awayFromGate, true);
                     setPathState(8);
                 }
@@ -244,10 +258,16 @@ public class redFar8ballAuto extends OpMode {
 
             case 10:
                 if(!launcher.isBusy()) {
-
+                    follower.followPath(Paths.toEnd, true);
+                    setPathState(11);
+                }
+                break;
+            case 11:
+                if(!follower.isBusy()) {
                     setPathState(-1);
                 }
                 break;
+
 
 
 

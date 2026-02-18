@@ -17,7 +17,6 @@ dependencies {
 
 
     implementation 'com.pedropathing:ftc:2.1.0-alpha.2'
-    implementation 'com.pedropathing:ivy:0.0.1-SNAPSHOT'
 
 
     implementation 'com.pedropathing:telemetry:1.0.0'

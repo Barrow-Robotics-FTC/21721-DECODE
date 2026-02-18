@@ -131,8 +131,8 @@ public class noPedroTeleop extends LinearOpMode {
             }
 
             if (gamepad2.right_bumper){
-                Launcher.lServo.setPower(-.7);
-                Launcher.rServo.setPower(.7);
+                LauncherV2.lServo.setPower(-.7);
+                LauncherV2.rServo.setPower(.7);
 
             }
 

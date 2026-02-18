@@ -135,7 +135,7 @@ public class LauncherV2 {
                 chipMotor.setPower(0);
                 lServo.setPower(0);
                 rServo.setPower(0);
-                intakeFront.setPower(0);
+
                 break;
 
             case SPEED_UP:

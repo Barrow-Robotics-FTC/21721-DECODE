@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.utils.Intake.intakeFront;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.utils.LauncherV2;
 import org.firstinspires.ftc.teamcode.utils.Ramp;
 import org.firstinspires.ftc.teamcode.utils.Intake;
 
@@ -17,7 +18,7 @@ public class MultiTest extends LinearOpMode {
     int CLOSE_TARGET_RPM = 1200;
     int FAR_TARGET_RPM = 1300;
 
-    private Launcher launcher;
+    private LauncherV2 launcher;
     private Intake Intake;
 
     private Ramp Ramp;
@@ -28,7 +29,7 @@ public class MultiTest extends LinearOpMode {
     public void runOpMode() {
         Ramp = new Ramp(hardwareMap);
         Intake = new Intake(hardwareMap);
-        launcher = new Launcher(hardwareMap);
+        launcher = new LauncherV2(hardwareMap);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -63,11 +64,11 @@ public class MultiTest extends LinearOpMode {
 
 
             if (gamepad1.yWasReleased()) {
-                Launcher.chipMotor.setVelocity(FAR_TARGET_RPM);
+                LauncherV2.chipMotor.setVelocity(FAR_TARGET_RPM);
             }
 
             if (gamepad1.aWasReleased()) {
-                Launcher.chipMotor.setVelocity(CLOSE_TARGET_RPM);
+                LauncherV2.chipMotor.setVelocity(CLOSE_TARGET_RPM);
 
             }
 
@@ -89,7 +90,7 @@ public class MultiTest extends LinearOpMode {
                 launcher.rServo.setPower(0);
             }
             if (gamepad1.dpadRightWasReleased()) {
-                launcher.launch();
+                launcher.launchV2();
             }
             if (gamepad1.dpadDownWasReleased()) {
                 launcher.lServo.setPower(launcher.feedPowerSwapped);

@@ -12,8 +12,8 @@ public class Ramp {
     public static double midPos = (.7);
 
 
-    public static double lFarPos = (.325);
-    public static double rFarPos = (.7);
+    public static double lFarPos = (.305);
+    public static double rFarPos = (.72);
 
 
 
