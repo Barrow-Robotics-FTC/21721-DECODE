@@ -15,7 +15,9 @@ public class LauncherV2 {
     // Launcher constants
     public int CLOSE_TARGET_RPM = 1050;
     public int FAR_TARGET_RPM = 1400;
-    public int FAR_FAR_TARGET_RPM = 1680;
+    public int AUTO_FAR_TARGET_RPM = 1350;
+    public int FAR_FAR_TARGET_RPM = 1610; // orginal was 1620
+    public int AUTO_FAR_FAR_TARGET_RPM = 1620; // orginal was 1620
     public int TARGET_RPM = 1300;
 
     final int RPM_TOLERANCE = 50;
