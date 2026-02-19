@@ -94,7 +94,7 @@ public class redFarNineBallAuto extends OpMode {
                             new BezierCurve(
                                     new Pose(60.000, 12.000).mirror(),
                                     new Pose(60.000, 32.000).mirror(),
-                                    new Pose(48.000, 34.000).mirror()
+                                    new Pose(48.000, 34.500).mirror()
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(66), Math.toRadians(0))
 
@@ -102,9 +102,9 @@ public class redFarNineBallAuto extends OpMode {
 
             collectSpikeOne = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(48.000, 34.000).mirror(),
+                                    new Pose(48.000, 34.500).mirror(),
 
-                                    new Pose(8.000, 34.000).mirror()
+                                    new Pose(7.000, 34.5000).mirror()
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(0))
 
@@ -112,7 +112,7 @@ public class redFarNineBallAuto extends OpMode {
 
             toScoreOne = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(8, 34.000).mirror(),
+                                    new Pose(7, 34.5000).mirror(),
 
                                     new Pose(60.000, 12.000).mirror()
                             )
@@ -134,7 +134,7 @@ public class redFarNineBallAuto extends OpMode {
                             new BezierLine(
                                     new Pose(48.000, 60).mirror(),
 
-                                    new Pose(8, 60).mirror()
+                                    new Pose(7, 60).mirror()
                             )
                     ).setTangentHeadingInterpolation()
 
@@ -142,7 +142,7 @@ public class redFarNineBallAuto extends OpMode {
 
             awayFromGate = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(8, 60).mirror(),
+                                    new Pose(7, 60).mirror(),
 
                                     new Pose(36.000, 60).mirror()
                             )
