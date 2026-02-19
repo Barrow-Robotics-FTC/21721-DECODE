@@ -104,7 +104,7 @@ public class redFarNineBallAuto extends OpMode {
                             new BezierLine(
                                     new Pose(48.000, 34.000).mirror(),
 
-                                    new Pose(9.5000, 34.000).mirror()
+                                    new Pose(8.000, 34.000).mirror()
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(0))
 
@@ -112,7 +112,7 @@ public class redFarNineBallAuto extends OpMode {
 
             toScoreOne = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(9.5, 34.000).mirror(),
+                                    new Pose(8, 34.000).mirror(),
 
                                     new Pose(60.000, 12.000).mirror()
                             )
@@ -124,7 +124,7 @@ public class redFarNineBallAuto extends OpMode {
                             new BezierLine(
                                     new Pose(60.000, 12.000).mirror(),
 
-                                    new Pose(48.000, 61).mirror()
+                                    new Pose(48.000, 60).mirror()
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(66), Math.toRadians(0))
 
@@ -132,9 +132,9 @@ public class redFarNineBallAuto extends OpMode {
 
             collectSpikeTwo = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(48.000, 61).mirror(),
+                                    new Pose(48.000, 60).mirror(),
 
-                                    new Pose(8, 61).mirror()
+                                    new Pose(8, 60).mirror()
                             )
                     ).setTangentHeadingInterpolation()
 
@@ -142,9 +142,9 @@ public class redFarNineBallAuto extends OpMode {
 
             awayFromGate = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(8, 61.5).mirror(),
+                                    new Pose(8, 60).mirror(),
 
-                                    new Pose(36.000, 61.5).mirror()
+                                    new Pose(36.000, 60).mirror()
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(0))
 
@@ -152,7 +152,7 @@ public class redFarNineBallAuto extends OpMode {
 
             toScoreTwo = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(36.000, 61.5).mirror(),
+                                    new Pose(36.000, 60).mirror(),
 
                                     new Pose(60.000, 12.000).mirror()
                             )
