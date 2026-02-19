@@ -1,26 +1,24 @@
+
 package org.firstinspires.ftc.teamcode.auto;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.TelemetryManager;
 import com.bylazar.telemetry.PanelsTelemetry;
-
-
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-import org.firstinspires.ftc.teamcode.utils.Intake;
-import org.firstinspires.ftc.teamcode.utils.LauncherV2;
-import org.firstinspires.ftc.teamcode.utils.Ramp;
-
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.geometry.Pose;
 
+import org.firstinspires.ftc.teamcode.utils.Intake;
+import org.firstinspires.ftc.teamcode.utils.LauncherV2;
+import org.firstinspires.ftc.teamcode.utils.Ramp;
 
-@Autonomous(name = "BLUE - CLOSE: 9 ball", group = "Autonomous")
+@Autonomous(name = "Pedro Pathing Autonomous", group = "Autonomous")
 @Configurable // Panels
-public class blueCloseNineBallAuto extends OpMode {
+public class redCloseNineBallAuto extends OpMode {
     private TelemetryManager panelsTelemetry; // Panels Telemetry instance
     public Follower follower; // Pedro Pathing follower instance
     private int pathState; // Current autonomous path state (state machine)
@@ -35,21 +33,19 @@ public class blueCloseNineBallAuto extends OpMode {
     public void init() {
         panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
 
+        follower = Constants.createFollower(hardwareMap);
+        follower.setStartingPose(new Pose(72, 8, Math.toRadians(90)));
+
+        paths = new Paths(follower); // Build paths
+
+        panelsTelemetry.debug("Status", "Initialized");
+        panelsTelemetry.update(telemetry);
+
         ramp = new Ramp(hardwareMap);
         intake = new Intake(hardwareMap);
         launcher = new LauncherV2(hardwareMap);
         launcher.TARGET_RPM = launcher.AUTO_FAR_TARGET_RPM;
-
-        follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(new Pose(23, 126, Math.toRadians(139)));
-
-        paths = new Paths(follower); // Build paths
-
-
-
-
-        panelsTelemetry.debug("Status", "Initialized");
-        panelsTelemetry.update(telemetry);
+        
     }
 
     @Override
@@ -82,90 +78,91 @@ public class blueCloseNineBallAuto extends OpMode {
         public Paths(Follower follower) {
             toScorePreload = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(23.000, 126.000),
+                                    new Pose(119.972, 129.583),
 
-                                    new Pose(61.000, 83.000)
+                                    new Pose(84.000, 90.000)
                             )
-                    ).setConstantHeadingInterpolation(Math.toRadians(139))
+                    ).setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(40))
+
                     .build();
 
             toSpikeOne = follower.pathBuilder().addPath(
-                            new BezierLine(
-                                    new Pose(62, 83.000),
-
-                                    new Pose(48.000, 83.000)
+                            new BezierCurve(
+                                    new Pose(84.000, 90.000),
+                                    new Pose(84.000, 84.000),
+                                    new Pose(102.000, 84.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(139), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(0))
 
                     .build();
 
             collectSpikeOne = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(48.000, 83.000),
+                                    new Pose(102.000, 84.000),
 
-                                    new Pose(16.000, 83.000)
+                                    new Pose(129.000, 84.000)
                             )
-                    ).setConstantHeadingInterpolation(Math.toRadians(180))
+                    ).setConstantHeadingInterpolation(Math.toRadians(0))
 
                     .build();
 
             toScoreOne = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(16.000, 83.000),
+                                    new Pose(129.000, 84.000),
 
-                                    new Pose(62, 83)
+                                    new Pose(84.000, 90.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(139))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(40))
 
                     .build();
 
             toSpikeTwo = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(60.000, 84.000),
-                                    new Pose(60.000, 66.000),
-                                    new Pose(48.000, 57.000)
+                                    new Pose(84.000, 90.000),
+                                    new Pose(84.000, 63.000),
+                                    new Pose(102.000, 60.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(139), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(0))
 
                     .build();
 
             collectSpikeTwo = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(48.000, 57.000),
+                                    new Pose(102.000, 60.000),
 
-                                    new Pose(12.000, 57.000)
+                                    new Pose(135.000, 60.000)
                             )
-                    ).setTangentHeadingInterpolation()
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
 
                     .build();
 
             awayFromGate = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(12.000, 57.000),
+                                    new Pose(135.000, 60.000),
 
-                                    new Pose(24.000, 57.000)
+                                    new Pose(111.000, 60.000)
                             )
-                    ).setConstantHeadingInterpolation(Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
 
                     .build();
 
             toScoreTwo = follower.pathBuilder().addPath(
-                            new BezierCurve(
-                                    new Pose(24.000, 57.000),
-                                    new Pose(48.000, 66.000),
-                                    new Pose(62, 82)
+                            new BezierLine(
+                                    new Pose(111.000, 60.000),
+
+                                    new Pose(84.000, 90.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(138))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(40))
 
                     .build();
 
             toEnd = follower.pathBuilder().addPath(
-                            new BezierLine(
-                                    new Pose(60.000, 84.000),
-
-                                    new Pose(60.000, 108.000)
+                            new BezierCurve(
+                                    new Pose(84.000, 90.000),
+                                    new Pose(117.000, 90.000),
+                                    new Pose(117.000, 69.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(138), Math.toRadians(180))
+                    ).setLinearHeadingInterpolation(Math.toRadians(40), Math.toRadians(270))
 
                     .build();
         }
@@ -274,7 +271,4 @@ public class blueCloseNineBallAuto extends OpMode {
     public void setPathState(int pState) {
         pathState = pState;
     }
-
-
 }
-    
