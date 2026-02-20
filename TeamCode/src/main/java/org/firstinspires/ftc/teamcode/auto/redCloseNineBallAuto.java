@@ -34,7 +34,7 @@ public class redCloseNineBallAuto extends OpMode {
         panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
 
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(new Pose(72, 8, Math.toRadians(90)));
+        follower.setStartingPose(new Pose(123, 126, Math.toRadians(40)));
 
         paths = new Paths(follower); // Build paths
 
@@ -100,7 +100,7 @@ public class redCloseNineBallAuto extends OpMode {
                             new BezierLine(
                                     new Pose(102.000, 84.000),
 
-                                    new Pose(129.000, 84.000)
+                                    new Pose(131.000, 84.000)
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(0))
 
@@ -108,7 +108,7 @@ public class redCloseNineBallAuto extends OpMode {
 
             toScoreOne = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(129.000, 84.000),
+                                    new Pose(131, 84.000),
 
                                     new Pose(84.000, 90.000)
                             )

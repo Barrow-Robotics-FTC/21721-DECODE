@@ -104,7 +104,7 @@ public class redFarNineBallAuto extends OpMode {
                             new BezierLine(
                                     new Pose(48.000, 34.500).mirror(),
 
-                                    new Pose(7.000, 34.5000).mirror()
+                                    new Pose(8.000, 34.5000).mirror()
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(0))
 

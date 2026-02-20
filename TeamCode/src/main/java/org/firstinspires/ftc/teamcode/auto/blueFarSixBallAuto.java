@@ -16,7 +16,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.geometry.Pose;
 
-@Autonomous(name = "BLUE - FAR: 9 ball", group = "Autonomous")
+@Autonomous(name = "BLUE - FAR: 6 ball", group = "Autonomous")
 @Configurable // Panels
 public class blueFarSixBallAuto extends OpMode {
     private TelemetryManager panelsTelemetry; // Panels Telemetry instance
