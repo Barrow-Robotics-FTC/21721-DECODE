@@ -52,7 +52,7 @@ public class LauncherV2 {
     private final ElapsedTime recoveryTimer = new ElapsedTime();
 
     // PIDF coefficients for the launcher motor, getter and setter for live tuning
-    private PIDFCoefficients pidfCoefficients = new PIDFCoefficients(300, 0, 0, 10);
+    private PIDFCoefficients pidfCoefficients = new PIDFCoefficients(200, 0, 4, 13.8);
     public PIDFCoefficients getCoefficients() {
         return pidfCoefficients;
     }

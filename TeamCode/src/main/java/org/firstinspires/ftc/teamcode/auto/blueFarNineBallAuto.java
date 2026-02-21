@@ -201,7 +201,7 @@ public class blueFarNineBallAuto extends OpMode {
                     //SLOW DOWN TO .2 POWER
 
                     intake.in();
-                    follower.followPath(Paths.collectSpikeOne,.3, true);
+                    follower.followPath(Paths.collectSpikeOne,.5, true);
                     setPathState(4);
                 }
                 break;
@@ -229,7 +229,7 @@ public class blueFarNineBallAuto extends OpMode {
 
                     // LOWER SPEED
 
-                    follower.followPath(Paths.collectSpikeTwo,.3, true);
+                    follower.followPath(Paths.collectSpikeTwo,.5, true);
                     setPathState(7);
                 }
                 break;
