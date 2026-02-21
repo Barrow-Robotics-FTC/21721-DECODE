@@ -20,7 +20,7 @@ public class LauncherV2 {
     public int AUTO_FAR_FAR_TARGET_RPM = 1620; // orginal was 1620
     public int TARGET_RPM = 1300;
 
-    final int RPM_TOLERANCE = 50;
+    public int RPM_TOLERANCE = 50;
     final int RPM_IN_RANGE_TIME = 250;
     final int MIN_TIME_BETWEEN_LAUNCHES = 500;
     public final double feedPower = 1;
@@ -46,12 +46,20 @@ public class LauncherV2 {
     public boolean isBusy;
     private Intake Intake;
 
-
-
     // timers
     private final ElapsedTime feedTimer = new ElapsedTime();
     private final ElapsedTime inToleranceTimer = new ElapsedTime();
     private final ElapsedTime recoveryTimer = new ElapsedTime();
+
+    // PIDF coefficients for the launcher motor, getter and setter for live tuning
+    private PIDFCoefficients pidfCoefficients = new PIDFCoefficients(300, 0, 0, 10);
+    public PIDFCoefficients getCoefficients() {
+        return pidfCoefficients;
+    }
+    public void setCoefficients(PIDFCoefficients coefficients) {
+        this.pidfCoefficients = coefficients;
+        chipMotor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+    }
 
 
     public LauncherV2(HardwareMap hardwareMap) {
@@ -61,11 +69,10 @@ public class LauncherV2 {
         rServo = hardwareMap.get(CRServo.class, "rServo");
         intakeFront = hardwareMap.get(DcMotorEx.class, "intakeFront");
 
-
         // Set launcher motor characteristics
         chipMotor.setZeroPowerBehavior(BRAKE);
         chipMotor.setMode(com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_USING_ENCODER);
-        chipMotor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(300,0,0,10));
+        chipMotor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         chipMotor.setDirection(DcMotorEx.Direction.FORWARD);
         intakeFront.setDirection(DcMotor.Direction.FORWARD);
 
@@ -91,8 +98,6 @@ public class LauncherV2 {
         return state != State.IDLE;
     }
 
-
-
     public double getChipRPM() {
         return chipMotor.getVelocity();
     }
@@ -109,8 +114,6 @@ public class LauncherV2 {
         this.targetLaunches = launches;
     }
 
-
-
     public void launchV2() {
         if (state == State.IDLE) {
             isBusy = true;
@@ -124,8 +127,6 @@ public class LauncherV2 {
     public void startSpeed(int vel){
         chipMotor.setVelocity(vel);
     }
-
-
 
     public State getState() {
         return state;
