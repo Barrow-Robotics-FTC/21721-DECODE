@@ -45,7 +45,7 @@ public class redCloseNineBallAuto extends OpMode {
         intake = new Intake(hardwareMap);
         launcher = new LauncherV2(hardwareMap);
         launcher.TARGET_RPM = launcher.AUTO_FAR_TARGET_RPM;
-        
+
     }
 
     @Override
@@ -195,7 +195,7 @@ public class redCloseNineBallAuto extends OpMode {
 
 
                     intake.in();
-                    follower.followPath(Paths.collectSpikeOne,.3, true);
+                    follower.followPath(Paths.collectSpikeOne,.5, true);
                     setPathState(4);
                 }
                 break;
@@ -221,7 +221,7 @@ public class redCloseNineBallAuto extends OpMode {
                 if(!follower.isBusy()) {
                     intake.in();
 
-                    follower.followPath(Paths.collectSpikeTwo,.3, true);
+                    follower.followPath(Paths.collectSpikeTwo,.5, true);
                     setPathState(7);
                 }
                 break;

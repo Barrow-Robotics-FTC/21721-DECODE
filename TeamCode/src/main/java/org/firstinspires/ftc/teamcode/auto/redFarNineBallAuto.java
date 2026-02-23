@@ -104,7 +104,7 @@ public class redFarNineBallAuto extends OpMode {
                             new BezierLine(
                                     new Pose(48.000, 34.500).mirror(),
 
-                                    new Pose(6.000, 34.5000).mirror()
+                                    new Pose(4.000, 34.5000).mirror()
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(0))
 
@@ -112,7 +112,7 @@ public class redFarNineBallAuto extends OpMode {
 
             toScoreOne = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(6, 34.5000).mirror(),
+                                    new Pose(4, 34.5000).mirror(),
 
                                     new Pose(60.000, 12.000).mirror()
                             )
@@ -199,7 +199,7 @@ public class redFarNineBallAuto extends OpMode {
                     //SLOW DOWN TO .2 POWER
 
                     intake.in();
-                    follower.followPath(Paths.collectSpikeOne,.3, true);
+                    follower.followPath(Paths.collectSpikeOne,.5, true);
                     setPathState(4);
                 }
                 break;
@@ -227,7 +227,7 @@ public class redFarNineBallAuto extends OpMode {
 
                     // LOWER SPEED
 
-                    follower.followPath(Paths.collectSpikeTwo,.3, true);
+                    follower.followPath(Paths.collectSpikeTwo,.5, true);
                     setPathState(7);
                 }
                 break;
@@ -235,6 +235,7 @@ public class redFarNineBallAuto extends OpMode {
             case 7:
                 if(!follower.isBusy()) {
                     intake.off();
+                    launcher.startSpeed(launcher.FAR_FAR_TARGET_RPM);
                     follower.followPath(Paths.awayFromGate, true);
                     setPathState(8);
                 }

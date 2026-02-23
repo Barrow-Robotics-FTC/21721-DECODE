@@ -198,7 +198,7 @@ public class blueCloseNineBallAuto extends OpMode {
 
 
                     intake.in();
-                    follower.followPath(Paths.collectSpikeOne,.3, true);
+                    follower.followPath(Paths.collectSpikeOne,.5, true);
                     setPathState(4);
                 }
                 break;
@@ -224,7 +224,7 @@ public class blueCloseNineBallAuto extends OpMode {
                 if(!follower.isBusy()) {
                     intake.in();
 
-                    follower.followPath(Paths.collectSpikeTwo,.3, true);
+                    follower.followPath(Paths.collectSpikeTwo,.5, true);
                     setPathState(7);
                 }
                 break;

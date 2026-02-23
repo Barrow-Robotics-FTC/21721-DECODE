@@ -48,7 +48,7 @@ public class blueFarNineBallAuto extends OpMode {
         panelsTelemetry.update(telemetry);
 
         launcher.setTargetLaunches(targetLaunches);
-        launcher.TARGET_RPM = launcher.FAR_FAR_TARGET_RPM;
+        launcher.TARGET_RPM = launcher.AUTO_FAR_FAR_TARGET_RPM;
     }
 
     @Override
